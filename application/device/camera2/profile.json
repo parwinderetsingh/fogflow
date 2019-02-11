@@ -2,6 +2,7 @@
     "discoveryURL": "http://10.156.0.10:443/ngsi9",
     "myIP": "10.156.0.10",
     "myPort": 8092,
+
     "location": {
         "latitude": 36.146094,
         "longitude": 138.239776
