@@ -65,12 +65,12 @@ func startAgent(config *Config) {
 }
 
 func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
-	//INFO.Println("===========RECEIVE NOTIFY CONTEXT=========")
-	//INFO.Println(notifyCtxReq)
+	INFO.Println("===========RECEIVE NOTIFY CONTEXT=========")
+	INFO.Println(notifyCtxReq)
 
 	for _, v := range notifyCtxReq.ContextResponses {
 		ctxObj := CtxElement2Object(&(v.ContextElement))
-		//INFO.Println(ctxObj)
+		INFO.Println(ctxObj)
 
 		var latency = (time.Now().UnixNano() - StartTime.UnixNano()) / int64(time.Millisecond)
 		if ctxObj.IsEmpty() == true {
@@ -106,7 +106,7 @@ func subscribe(config *Config) string {
 	subscription := SubscribeContextRequest{}
 
 	newEntity := EntityId{}
-	newEntity.Type = "Task"
+	newEntity.Type = "Car"
 	newEntity.IsPattern = true
 	subscription.Entities = make([]EntityId, 0)
 	subscription.Entities = append(subscription.Entities, newEntity)
@@ -137,7 +137,7 @@ func createEntity(config *Config, i int) {
 	ctxObj := ContextObject{}
 
 	ctxObj.Entity.ID = "Car." + strconv.Itoa(i)
-	ctxObj.Entity.Type = "Hello"
+	ctxObj.Entity.Type = "Car"
 	ctxObj.Entity.IsPattern = false
 
 	ctxObj.Attributes = make(map[string]ValueObject)
