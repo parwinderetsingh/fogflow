@@ -124,6 +124,7 @@ func update(config *Config, i int) {
 	ctxObj.Attributes["no"] = ValueObject{Type: "integer", Value: i}
 
 	currentTime := int64(time.Now().UnixNano() / 1000000)
+
 	ctxObj.Attributes["time"] = ValueObject{Type: "integer", Value: currentTime}
 
 	client := NGSI10Client{IoTBrokerURL: config.UpdateBrokerURL}

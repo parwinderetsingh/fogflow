@@ -74,6 +74,8 @@ func (nc *NGSI10Client) sendUpdateContext(elem *ContextElement, internal bool) e
 		return err
 	}
 
+	fmt.Printf("%s\r\n", bytes.NewBuffer(body))
+
 	req, err := http.NewRequest("POST", nc.IoTBrokerURL+"/updateContext", bytes.NewBuffer(body))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
