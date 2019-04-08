@@ -14,7 +14,7 @@ import (
 
 func main() {
 	configurationFile := flag.String("f", "config.json", "A configuration file")
-	myPort := flag.Int("p", 8090, "the port of this agent")
+	myPort := flag.Int("p", 8050, "the port of this agent")
 	num := flag.Int("n", 2, "number of updates")
 
 	flag.Parse()
@@ -55,8 +55,6 @@ func startAgent(config *Config) {
 func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
 	INFO.Println("===========RECEIVE NOTIFY CONTEXT=========")
 	INFO.Printf("<< %+v >>\r\n", notifyCtxReq)
-
-	return
 
 	for _, v := range notifyCtxReq.ContextResponses {
 		ctxObj := CtxElement2Object(&(v.ContextElement))
