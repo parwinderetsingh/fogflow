@@ -1,7 +1,7 @@
 version: "2"
 services:
     designer:
-        image: fogflow/designer
+        image: fogflow/designer:intent
         volumes:
             - ./config.json:/app/config.json                
         ports:
@@ -11,7 +11,7 @@ services:
             - discovery
             - broker
     discovery:
-        image: fogflow/discovery
+        image: fogflow/discovery:intent
         volumes:
             - ./config.json:/config.json                        
         ports:
@@ -19,7 +19,7 @@ services:
         depends_on: 
             - postgis
     broker:
-        image: fogflow/broker
+        image: fogflow/broker:intent
         volumes:
             - ./config.json:/config.json                        
         ports:
@@ -27,7 +27,7 @@ services:
         depends_on: 
             - discovery
     master:
-        image: fogflow/master
+        image: fogflow/master:intent
         volumes:
             - ./config.json:/config.json                        
         links:
@@ -39,7 +39,7 @@ services:
             - discovery
             - broker     
     cloud_worker:
-        image: fogflow/worker
+        image: fogflow/worker:intent
         volumes:
             - /tmp:/tmp        
             - ./config.json:/config.json                
