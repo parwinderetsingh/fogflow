@@ -59,9 +59,9 @@ func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
 	for _, v := range notifyCtxReq.ContextResponses {
 		ctxObj := CtxElement2Object(&(v.ContextElement))
 
-		currentTime := time.Now().UnixNano() / 1000000
-		latency := currentTime - ctxObj.Attributes["time"].Value.(int64)
-		num := ctxObj.Attributes["no"].Value.(int64)
+		currentTime := time.Now().UnixNano() / int64(time.Millisecond)
+		latency := currentTime - ctxObj.Attributes["time"].Value
+		num := ctxObj.Attributes["no"].Value
 		fmt.Printf("No. %d, latency: %d \r\n", num, latency)
 
 		/*
