@@ -59,7 +59,7 @@ func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
 	for _, v := range notifyCtxReq.ContextResponses {
 		ctxObj := CtxElement2Object(&(v.ContextElement))
 
-		currentTime := time.Now().UnixNano() / int64(time.Millisecond)
+		currentTime := int64(time.Now().UnixNano() / 1000000)
 		latency := currentTime - ctxObj.Attributes["time"].Value.(int64)
 		num := ctxObj.Attributes["no"].Value.(int64)
 		fmt.Printf("No. %d, latency: %d \r\n", num, latency)
@@ -123,7 +123,7 @@ func update(config *Config, i int) {
 	ctxObj.Attributes = make(map[string]ValueObject)
 	ctxObj.Attributes["no"] = ValueObject{Type: "integer", Value: i}
 
-	currentTime := time.Now().UnixNano() / int64(time.Millisecond)
+	currentTime := int64(time.Now().UnixNano() / 1000000)
 	ctxObj.Attributes["time"] = ValueObject{Type: "integer", Value: currentTime}
 
 	client := NGSI10Client{IoTBrokerURL: config.UpdateBrokerURL}
