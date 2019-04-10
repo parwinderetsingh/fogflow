@@ -571,11 +571,11 @@ func (tb *ThinBroker) notifyOneSubscriberWithCurrentStatus(entities []EntityId, 
 
 	subscription, ok := tb.subscriptions[sid]
 	if ok == false {
-		tb.subscriptions_lock.Unlock()
+		tb.subscriptions_lock.RUnlock()
 		return
 	}
 	selectedAttributes := subscription.Attributes
-	tb.subscriptions_lock.Unlock()
+	tb.subscriptions_lock.RUnlock()
 
 	tb.entities_lock.Lock()
 	for _, entity := range entities {
