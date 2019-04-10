@@ -18,6 +18,7 @@ var contentImageFileName = null;
 var client = new NGSI10Client(config.brokerURL);
 
 addMenuItem('Architecture', showArch);    
+addMenuItem('Site', showAllSites);    
 addMenuItem('Discovery', showDiscovery);    
 addMenuItem('Broker', showBrokers);    
 addMenuItem('Master', showMaster);    
@@ -54,6 +55,7 @@ function showArch()
 	$('#content').html('<img width="80%" height="80%" src="/img/arch.jpg"></img>');
 }
 
+
 function showDiscovery() 
 {
     $('#info').html('information of IoT Discovery');
@@ -72,6 +74,39 @@ function showDiscovery()
 	$('#content').html(html);  
 }
 
+
+function showAllSites() 
+{
+    $('#info').html('list of all sites');
+    
+    var reqURL = config.discoveryURL + "/sitelist";
+    $.get(reqURL, function( sites ) {
+        var html = '<table class="table table-striped table-bordered table-condensed">';
+   
+        html += '<thead><tr>';
+        html += '<th>address</th>';
+        html += '<th>geohash</th>';
+        html += '<th>local</th>';
+        html += '<th>parent</th>';
+        html += '<th>children</th>';
+        html += '</tr></thead>';   
+    
+       for(var i in sites) {
+            var site = sites[i];
+            console.log(site);
+            html += '<tr>'; 			
+            html += '<td>' + site.siteinfo.externalAddress + '</td>';
+            html += '<td>' + site.siteinfo.geohashID + '</td>';			
+            html += '<td>' + site.siteinfo.isLocalSite + '</td>';			
+            html += '<td>' + JSON.stringify(site.parent) + '</td>';			
+            html += '<td>' + JSON.stringify(site.children) + '</td>';			
+	        html += '<tr>'; 					
+        }  
+        
+	    $('#content').html(html);  
+
+    }, "json" );
+}
 
 function showBrokers() 
 {
