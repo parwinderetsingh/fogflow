@@ -213,7 +213,6 @@ type OrionContextAttribute struct {
 	Metadata []ContextMetadata `json:"metadata,omitempty"`
 }
 
-/*
 func (pAttr *ContextAttribute) UnmarshalJSON(b []byte) error {
 	type InternalAttributeObject struct {
 		Name     string            `json:"name"`
@@ -271,8 +270,6 @@ func (pAttr *ContextAttribute) UnmarshalJSON(b []byte) error {
 
 	return err
 }
-
-*/
 
 type EntityId struct {
 	ID        string `json:"id"`

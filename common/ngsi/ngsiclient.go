@@ -74,7 +74,7 @@ func (nc *NGSI10Client) sendUpdateContext(elem *ContextElement, internal bool) e
 		return err
 	}
 
-	fmt.Printf("%s\r\n", bytes.NewBuffer(body))
+	//fmt.Printf("%s\r\n", bytes.NewBuffer(body))
 
 	req, err := http.NewRequest("POST", nc.IoTBrokerURL+"/updateContext", bytes.NewBuffer(body))
 	req.Header.Add("Content-Type", "application/json")
@@ -291,8 +291,9 @@ func (nc *NGSI10Client) SubscribeContext(sub *SubscribeContextRequest, requireRe
 		return "", err
 	}
 
-	fmt.Println(string(body))
 	fmt.Println(nc.IoTBrokerURL + "/subscribeContext")
+
+	fmt.Println(bytes.NewBuffer(body))
 
 	req, err := http.NewRequest("POST", nc.IoTBrokerURL+"/subscribeContext", bytes.NewBuffer(body))
 	req.Header.Add("Content-Type", "application/json")

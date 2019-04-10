@@ -12,14 +12,13 @@ import (
 	. "github.com/smartfog/fogflow/common/ngsi"
 )
 
-var startTime = time.Now()
-var started = false
-var counter = int64(0)
+var previous_num = int64(0)
+var current_num = int64(0)
+var ticker *time.Ticker
 
 func main() {
 	configurationFile := flag.String("f", "config.json", "A configuration file")
-	myPort := flag.Int("p", 8050, "the port of this agent")
-	num := flag.Int("n", 2, "number of updates")
+	myPort := flag.Int("p", 8066, "the port of this agent")
 
 	flag.Parse()
 
@@ -28,25 +27,36 @@ func main() {
 	config.MyPort = *myPort
 
 	startAgent(&config)
-	sid := subscribe(&config)
 
-	time.Sleep(10 * time.Second)
+	//sid := subscribe(&config)
 
-	startTime = time.Now()
-	started = true
-	counter = 0
-	for i := 1; i < *num; i++ {
-		update(&config, i)
-	}
+	//time.Sleep(10 * time.Second)
+
+	// start a timer to do something periodically
+	ticker = time.NewTicker(time.Second)
+	go func() {
+		for {
+			<-ticker.C
+			onTimer()
+		}
+	}()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	signal.Notify(c, syscall.SIGTERM)
 	<-c
 
-	unsubscribe(&config, sid)
+	//unsubscribe(&config, sid)
 
 	time.Sleep(5 * time.Second)
+}
+
+func onTimer() {
+	if current_num != previous_num {
+		fmt.Printf("total =  %d, throughput = %d \r\n", current_num, current_num-previous_num)
+	}
+
+	previous_num = current_num
 }
 
 func startAgent(config *Config) {
@@ -58,25 +68,32 @@ func startAgent(config *Config) {
 func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
 	//INFO.Println("===========RECEIVE NOTIFY CONTEXT=========")
 	//INFO.Printf("<< %+v >>\r\n", notifyCtxReq)
-
-	if started {
-		counter = counter + 1
-
-		now := time.Now()
-		delta := now.Sub(startTime)
-		throughput := int64(float64(counter) / delta.Seconds())
-
-		fmt.Printf("throughput %d, %d \r\n", counter, throughput)
-	}
+	current_num = current_num + 1
 
 	/*
-		for _, v := range notifyCtxReq.ContextResponses {
-			ctxObj := CtxElement2Object(&(v.ContextElement))
-			currentTime := int64(time.Now().UnixNano() / 1000000)
-			latency := currentTime - ctxObj.Attributes["time"].Value.(int64)
-			num := ctxObj.Attributes["no"].Value.(int64)
-			fmt.Printf("No. %d, latency: %d \r\n", num, latency)
-		} */
+
+		if started == false {
+			startTime = time.Now()
+			started = true
+			counter = 0
+		} else {
+			counter = counter + 1
+
+			now := time.Now()
+			delta := now.Sub(startTime)
+			throughput := int64(float64(counter) / delta.Seconds())
+
+			fmt.Printf("throughput %d, %d \r\n", counter, throughput)
+		}
+
+
+			for _, v := range notifyCtxReq.ContextResponses {
+				ctxObj := CtxElement2Object(&(v.ContextElement))
+				currentTime := int64(time.Now().UnixNano() / 1000000)
+				latency := currentTime - ctxObj.Attributes["time"].Value.(int64)
+				num := ctxObj.Attributes["no"].Value.(int64)
+				fmt.Printf("No. %d, latency: %d \r\n", num, latency)
+			} */
 
 }
 

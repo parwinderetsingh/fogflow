@@ -151,7 +151,7 @@ func (tb *ThinBroker) registerMyself() bool {
 		return false
 	}
 
-	INFO.Println("already registered myself to IoT Discovery: ", tb.myEntityId)
+	INFO.Println("already registered myself to IoT Discovery: ", tb.myEntityId, " , ", tb.IoTDiscoveryURL)
 	return true
 }
 
