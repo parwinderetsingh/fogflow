@@ -566,9 +566,15 @@ func (tb *ThinBroker) notifySubscribers(ctxElem *ContextElement, checkSelectedAt
 func (tb *ThinBroker) notifyOneSubscriberWithCurrentStatus(entities []EntityId, sid string) {
 	elements := make([]ContextElement, 0)
 
-	// find out the selected attribute list
+	// check if the subscription still exists; if yes, then find out the selected attribute list
 	tb.subscriptions_lock.RLock()
-	selectedAttributes := tb.subscriptions[sid].Attributes
+
+	subscription, ok := tb.subscriptions[sid]
+	if ok == false {
+		tb.subscriptions_lock.Unlock()
+		return
+	}
+	selectedAttributes := subscription.Attributes
 	tb.subscriptions_lock.RUnlock()
 
 	tb.entities_lock.Lock()
