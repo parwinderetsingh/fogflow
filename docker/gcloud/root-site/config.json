@@ -1,6 +1,6 @@
 {
     "root_discovery": "10.156.0.9:443",     
-    "webportal_ip": "10.156.0.9",     
+    "webportal_ip": "35.234.89.72",     
     "coreservice_ip": "10.156.0.9",   
     "external_hostip": "10.156.0.9",         
     "internal_hostip": "10.156.0.9",  
