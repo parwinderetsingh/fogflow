@@ -778,6 +778,9 @@ func (tMgr *TaskMgr) removeTaskIntent(taskIntent *TaskIntent) {
 
 	// send commands to terminate all existing task instances
 	var fogflow = tMgr.fogFlows[fID]
+
+	DEBUG.Println(fogflow)
+
 	for _, scheduledTaskInstance := range fogflow.DeploymentPlan {
 		tMgr.master.TerminateTask(scheduledTaskInstance)
 	}

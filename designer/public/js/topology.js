@@ -338,7 +338,14 @@ function submitTopology(topology, designboard)
     topologyCtxObj.attributes.status = {type: 'string', value: 'enabled'};
     topologyCtxObj.attributes.designboard = {type: 'object', value: designboard};    
     topologyCtxObj.attributes.template = {type: 'object', value: topology};  
-        
+    
+    topologyCtxObj.metadata = {};    
+      
+    var geoScope = {};    
+    geoScope.type = "global"
+    geoScope.value = "global"
+    topologyCtxObj.metadata.location = geoScope;    
+     
     client.updateContext(topologyCtxObj).then( function(data) {
         console.log(data);                
         // update the list of submitted topologies
@@ -683,6 +690,17 @@ function submitIntent()
     intentCtxObj.attributes = {};   
     intentCtxObj.attributes.status = {type: 'string', value: 'enabled'};
     intentCtxObj.attributes.intent = {type: 'object', value: intent};  
+    
+    intentCtxObj.metadata = {};         
+    var geoScope = {};    
+    if (scope == 'custom') {        
+        geoScope.type = geoscope.type
+        geoScope.value = geoscope.value    
+    } else {
+        geoScope.type = scope
+        geoScope.value = scope
+    }    
+    intentCtxObj.metadata.location = geoScope;         
     
     console.log(JSON.stringify(intentCtxObj));
         

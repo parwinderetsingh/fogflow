@@ -244,8 +244,8 @@ func (fd *FastDiscovery) DiscoverContextAvailability(w rest.ResponseWriter, r *r
 	geoscope := discoverCtxReq.Restriction.GetScope()
 	siteList := fd.routingTable.QuerySitesByScope(geoscope)
 
-	INFO.Println("===========MULTI-DISCOVERY===================")
-	INFO.Println(siteList)
+	//INFO.Println("===========MULTI-DISCOVERY===================")
+	//INFO.Println(siteList)
 
 	for _, site := range siteList {
 		if site.ExternalAddress == fd.routingTable.MySiteInfo().ExternalAddress {
@@ -405,8 +405,8 @@ func (fd *FastDiscovery) SubscribeContextAvailability(w rest.ResponseWriter, r *
 	geoscope := subscribeCtxAvailabilityReq.Restriction.GetScope()
 	siteList := fd.routingTable.QuerySitesByScope(geoscope)
 
-	INFO.Println("===========MULTI-DISCOVERY=======SUBSCRIBE============")
-	INFO.Println(siteList)
+	//INFO.Println("===========MULTI-DISCOVERY=======SUBSCRIBE============")
+	//INFO.Println(siteList)
 
 	for _, site := range siteList {
 		if site.ExternalAddress == fd.routingTable.MySiteInfo().ExternalAddress {
@@ -626,8 +626,8 @@ func (fd *FastDiscovery) onBroadcast(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func (fd *FastDiscovery) getAllSites(w rest.ResponseWriter, r *rest.Request) {
-	w.WriteJson(fd.routingTable.Serialization())
 	w.WriteHeader(200)
+	w.WriteJson(fd.routingTable.Serialization())
 }
 
 func (fd *FastDiscovery) onQuerySiteByScope(w rest.ResponseWriter, r *rest.Request) {
@@ -668,22 +668,16 @@ func (fd *FastDiscovery) onForwardContextUpdate(w rest.ResponseWriter, r *rest.R
 	switch updateCtxReq.UpdateAction {
 	case "UPDATE":
 		for _, ctxElem := range updateCtxReq.ContextElements {
-			//if ctxElem.Entity.ID == "" {
 			selectedBroker := fd.selectBroker()
 			if selectedBroker != nil {
+				INFO.Println("selected broker ", selectedBroker.MyURL)
+
 				providerURL := selectedBroker.MyURL
 				client := NGSI10Client{IoTBrokerURL: providerURL}
 				client.InternalUpdateContext(&ctxElem)
+			} else {
+				INFO.Println("no connected broker for the forwarded update")
 			}
-			/*} else {
-				eid := ctxElem.Entity.ID
-				registration := fd.repository.retrieveRegistration(eid)
-				if registration != nil {
-					providerURL := registration.ProvidingApplication
-					client := NGSI10Client{IoTBrokerURL: providerURL}
-					client.InternalUpdateContext(&ctxElem)
-				}
-			} */
 		}
 
 	case "DELETE":
@@ -697,6 +691,11 @@ func (fd *FastDiscovery) onForwardContextUpdate(w rest.ResponseWriter, r *rest.R
 			}
 		}
 	}
+}
+
+func (fd *FastDiscovery) getBrokerList(w rest.ResponseWriter, r *rest.Request) {
+	w.WriteHeader(200)
+	w.WriteJson(fd.BrokerList)
 }
 
 func (fd *FastDiscovery) onBrokerHeartbeat(w rest.ResponseWriter, r *rest.Request) {

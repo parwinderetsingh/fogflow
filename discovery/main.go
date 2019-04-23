@@ -73,6 +73,7 @@ func main() {
 
 		// proxy to forward the entity update from other site to the broker within the local site
 		rest.Post("/proxy/updateContext", iotDiscovery.onForwardContextUpdate),
+		rest.Get("/proxy/brokerlist", iotDiscovery.getBrokerList),
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -105,6 +106,8 @@ func main() {
 	signal.Notify(c, os.Interrupt)
 	signal.Notify(c, syscall.SIGTERM)
 	<-c
+
+	fmt.Println("Stoping IoT Discovery")
 
 	iotDiscovery.Stop()
 }
