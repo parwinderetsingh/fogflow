@@ -1,0 +1,14 @@
+version: "2"
+services:
+    broker:
+        image: fogflow/broker:intent
+        volumes:
+            - ./central.json:/config.json                        
+        ports:
+            - 8080:8080
+    cloud_worker:
+        image: fogflow/worker:intent
+        volumes:
+            - /tmp:/tmp        
+            - ./central.json:/config.json                
+            - /var/run/docker.sock:/var/run/docker.sock                    
