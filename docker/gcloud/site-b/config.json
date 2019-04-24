@@ -1,14 +1,14 @@
 {
-    "root_discovery": "10.156.0.3:443",     
-    "webportal_ip": "10.156.0.3",     
-    "coreservice_ip": "10.156.0.3",   
-    "external_hostip": "10.156.0.3",         
-    "internal_hostip": "10.156.0.3",  
+    "root_discovery": "10.156.0.9:443",     
+    "webportal_ip": "35.189.97.145",     
+    "coreservice_ip": "10.154.0.2",   
+    "external_hostip": "10.154.0.2",         
+    "internal_hostip": "10.154.0.2",  
     "physical_location":{
-        "longitude": 139.709059,
-        "latitude": 35.692221
+        "longitude": 174.709059,
+        "latitude": 42.692221
     },
-    "geohash_precision": 1,     
+    "geohash_precision": 2,     
     "logging":{
         "info":"stdout",
         "error":"stderr",

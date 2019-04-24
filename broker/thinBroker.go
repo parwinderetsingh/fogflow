@@ -68,6 +68,9 @@ func (tb *ThinBroker) Start(cfg *Config) {
 
 	// register itself to the IoT discovery
 	tb.registerMyself()
+
+	// send the first heartbeat message
+	tb.sendHeartBeat()
 }
 
 func (tb *ThinBroker) Stop() {

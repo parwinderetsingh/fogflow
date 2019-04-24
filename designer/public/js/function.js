@@ -247,16 +247,30 @@ function boardScene2Topology(scene)
     functionCtxObj.attributes.topology = {type: 'object', value: topology};    
     functionCtxObj.attributes.designboard = {type: 'object', value: scene};        
     functionCtxObj.attributes.intent = {type: 'object', value: intent};  
-    functionCtxObj.attributes.status = {type: 'string', value: 'enabled'};    
+    functionCtxObj.attributes.status = {type: 'string', value: 'enabled'};   
     
-    submitFogFunction(functionCtxObj).then(showFogFunctions);
+    functionCtxObj.metadata = {};      
+    var geoScope = {};    
+    geoScope.type = "global"
+    geoScope.value = "global"
+    functionCtxObj.metadata.location = geoScope;     
+    
+    console.log("=============submit a fog function=============");
+    console.log(JSON.stringify(functionCtxObj));    
+    
+    return client.updateContext(functionCtxObj).then( function(data1) {
+        console.log(data1);               
+        showFogFunctions();
+    }).catch( function(error) {
+        console.log('failed to record the created fog function');
+    });    
 }
 
 function submitFogFunction(functionCtxObj)
 {
     console.log("=============submit a fog function=============");
     console.log(JSON.stringify(functionCtxObj));
-    
+/*    
     var  topologyCtxObj = functionCtxObj.attributes.topology.value;
     var  intentCtxObj = functionCtxObj.attributes.intent.value;  
         
@@ -272,13 +286,21 @@ function submitFogFunction(functionCtxObj)
     }(intentCtxObj)).catch( function(error) {
         console.log('failed to create the service topology');
     });   
-            
+*/            
+
+    functionCtxObj.metadata = {};      
+    var geoScope = {};    
+    geoScope.type = "global"
+    geoScope.value = "global"
+    functionCtxObj.metadata.location = geoScope;   
+    
     return client.updateContext(functionCtxObj).then( function(data1) {
         console.log(data1);                 
     }).catch( function(error) {
         console.log('failed to record the created fog function');
     });                  
 }
+
 
 function generateTaskList(scene)
 {    

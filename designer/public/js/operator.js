@@ -178,6 +178,13 @@ function submitOperator(operator, designboard)
     operatorObj.attributes.designboard = {type: 'object', value: designboard};    	
     operatorObj.attributes.operator = {type: 'object', value: operator};    
     
+    operatorObj.metadata = {};      
+    var geoScope = {};    
+    geoScope.type = "global"
+    geoScope.value = "global"
+    operatorObj.metadata.location = geoScope;    
+        
+    
     client.updateContext(operatorObj).then( function(data) {
         console.log(data);                
         showOperator();                       
@@ -478,7 +485,12 @@ function addDockerImage(image)
     newImageObject.metadata.operator = {
         type: 'string',
         value: image.operatorName
-    };               
+    };         
+    
+    var geoScope = {};    
+    geoScope.type = "global"
+    geoScope.value = "global"
+    newImageObject.metadata.location = geoScope;            
 
     client.updateContext(newImageObject).then( function(data) {
         console.log(data);

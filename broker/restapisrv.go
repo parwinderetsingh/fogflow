@@ -82,6 +82,7 @@ func (apisrv *RestApiSrv) getEntity(w rest.ResponseWriter, r *rest.Request) {
 	if entity == nil {
 		w.WriteHeader(404)
 	} else {
+		w.WriteHeader(200)
 		w.WriteJson(entity)
 	}
 }
@@ -94,6 +95,7 @@ func (apisrv *RestApiSrv) getAttribute(w rest.ResponseWriter, r *rest.Request) {
 	if attribute == nil {
 		w.WriteHeader(404)
 	} else {
+		w.WriteHeader(200)
 		w.WriteJson(attribute)
 	}
 }
@@ -111,6 +113,7 @@ func (apisrv *RestApiSrv) deleteEntity(w rest.ResponseWriter, r *rest.Request) {
 
 func (apisrv *RestApiSrv) getSubscriptions(w rest.ResponseWriter, r *rest.Request) {
 	subscriptions := apisrv.broker.getSubscriptions()
+	w.WriteHeader(200)
 	w.WriteJson(subscriptions)
 }
 
@@ -121,6 +124,7 @@ func (apisrv *RestApiSrv) getSubscription(w rest.ResponseWriter, r *rest.Request
 	if subscription == nil {
 		w.WriteHeader(404)
 	} else {
+		w.WriteHeader(200)
 		w.WriteJson(subscription)
 	}
 }

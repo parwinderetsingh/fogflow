@@ -1,48 +1,48 @@
 {
-    "root_discovery": "127.0.0.1:8090",     
-    "webportal_ip": "127.0.0.1",     
-    "coreservice_ip": "127.0.0.1",   
-    "external_hostip": "127.0.0.1",         
-    "internal_hostip": "127.0.0.1",  
+    "root_discovery": "10.156.0.9:443",     
+    "webportal_ip": "35.234.89.72",     
+    "coreservice_ip": "10.156.0.9",   
+    "external_hostip": "10.156.0.9",         
+    "internal_hostip": "10.156.0.9",  
     "physical_location":{
         "longitude": 139.709059,
         "latitude": 35.692221
     },
-    "geohash_precision": 2,     
+    "geohash_precision": 1,     
     "logging":{
         "info":"stdout",
         "error":"stderr",
         "protocol": "stdout",
-        "debug": "discard"
+        "debug": "stdout"
     },
     "discovery": {
-        "port": 8094,
+        "port": 443,
         "postgresql": {
             "dbreset": true,
             "username": "postgres",
             "password": "postgres",
-            "host": "127.0.0.1",
-            "port": 5433,
-            "dbname": "ngsi92"
+            "host": "postgis",
+            "port": 5432,
+            "dbname": "ngsi9"
         }    
     },
     "broker": {
-        "port": 8072,
-        "websocket": 8090        
+        "port": 8080
     },    
     "master": {
         "ngsi_agent_port": 1060    
     },
     "worker": {
-        "container_autoremove": false       
+        "container_autoremove": false,
+        "start_actual_task": false               
     },
     "designer": {
-        "webSrvPort": 8080,
+        "webSrvPort": 80,
         "agentPort": 1030               
     },    
     "rabbitmq": {
         "port": 5672,
-        "username": "guest",
-        "password":"guest"
+        "username": "admin",
+        "password":"mypass"
     }
 }
