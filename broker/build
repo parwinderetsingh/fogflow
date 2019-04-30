@@ -6,5 +6,5 @@ docker build -t "fogflow/broker:intent" .
 
 #build the arm version of broker
 CGO_ENABLED=0 GOOS=linux GOARCH=arm go build  -a -installsuffix cgo  -o broker_arm
-docker build -f Dockerfile4Arm -t "fogflow/broker:arm"  .
+docker build -f Dockerfile4Arm -t "fogflow/broker:arm.intent"  .
 

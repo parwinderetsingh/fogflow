@@ -1,0 +1,59 @@
+version: "2"
+services:
+    designer:
+        image: fogflow/designer:arm.intent
+        volumes:
+            - ./config.json:/app/config.json                
+        ports:
+            - 80:80
+            - 1030:1030
+        depends_on: 
+            - discovery
+            - broker
+    discovery:
+        image: fogflow/discovery:arm.intent
+        volumes:
+            - ./config.json:/config.json                        
+        ports:
+            - 443:443
+        depends_on: 
+            - postgis
+    broker:
+        image: fogflow/broker:arm.intent
+        volumes:
+            - ./config.json:/config.json                        
+        ports:
+            - 8080:8080
+        depends_on: 
+            - discovery
+    master:
+        image: fogflow/master:arm.intent
+        volumes:
+            - ./config.json:/config.json                        
+        links:
+            - rabbitmq        
+        ports:
+            - 1060:1060 
+        depends_on: 
+            - rabbitmq
+            - discovery
+            - broker     
+    cloud_worker:
+        image: fogflow/worker:arm.intent
+        volumes:
+            - /tmp:/tmp        
+            - ./config.json:/config.json                
+            - /var/run/docker.sock:/var/run/docker.sock                    
+    postgis:
+        image: tobi312/rpi-postgresql-postgis
+        ports:
+            - 5432:5432  
+        environment:
+            - POSTGRES_PASSWORD=postgres         
+    rabbitmq:
+        image: arm64v8/rabbitmq
+        ports:
+            - 5672:5672
+        environment:
+            - RABBITMQ_DEFAULT_USER=admin   
+            - RABBITMQ_DEFAULT_PASS=mypass   

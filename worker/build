@@ -7,5 +7,5 @@ docker build -t "fogflow/worker:intent" .
 
 #build the arm version of worker
 CGO_ENABLED=0 GOOS=linux GOARCH=arm go build  -a -installsuffix cgo  -o worker_arm
-docker build -f Dockerfile4Arm -t "fogflow/worker:arm"  .
+docker build -f Dockerfile4Arm -t "fogflow/worker:arm.intent"  .
 
