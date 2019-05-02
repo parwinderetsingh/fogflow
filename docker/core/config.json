@@ -3,7 +3,7 @@
     "webportal_ip": "35.234.89.72",     
     "coreservice_ip": "10.156.0.9",   
     "external_hostip": "10.156.0.9",         
-    "internal_hostip": "10.156.0.9",  
+    "internal_hostip": "172.17.0.1",  
     "physical_location":{
         "longitude": 139.709059,
         "latitude": 35.692221
@@ -21,7 +21,6 @@
             "dbreset": true,
             "username": "postgres",
             "password": "postgres",
-            "host": "10.156.0.9",
             "port": 5432,
             "dbname": "ngsi9"
         }    
