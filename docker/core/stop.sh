@@ -1,7 +1,18 @@
-docker stop broker && docker rm $_
-docker stop worker && docker rm $_
-docker stop master && docker rm $_
-docker stop discovery && docker rm $_
-docker stop designer && docker rm $_
-docker stop rabbitmq && docker rm $_
-docker stop postgis && docker rm $_
+echo "-----stop all components-----"
+docker stop broker 
+docker stop worker 
+docker stop master 
+docker stop discovery 
+docker stop designer 
+docker stop rabbitmq 
+docker stop postgis 
+
+echo "-----remove all containers-----"
+docker rm broker 
+docker rm worker 
+docker rm master 
+docker rm discovery 
+docker rm designer 
+docker rm rabbitmq 
+docker rm postgis 
+
