@@ -1,9 +1,9 @@
 {
-    "root_discovery": "10.156.0.2:443",     
-    "webportal_ip": "35.246.249.163",     
-    "coreservice_ip": "10.156.0.2",   
-    "external_hostip": "10.156.0.2",         
-    "internal_hostip": "10.156.0.2",  
+    "root_discovery": "10.156.0.9:443",     
+    "webportal_ip": "35.234.89.72",     
+    "coreservice_ip": "10.156.0.9",   
+    "external_hostip": "10.156.0.9",         
+    "internal_hostip": "10.156.0.9",  
     "physical_location":{
         "longitude": 139.709059,
         "latitude": 35.692221
@@ -21,7 +21,7 @@
             "dbreset": true,
             "username": "postgres",
             "password": "postgres",
-            "host": "postgis",
+            "host": "10.156.0.9",
             "port": 5432,
             "dbname": "ngsi9"
         }    
