@@ -27,6 +27,8 @@ func main() {
 		os.Exit(-1)
 	}
 
+	config.Discovery.DBCfg.Host = config.InternalIP
+
 	// load the routing table and announce itself
 	rTable := Routing{}
 	mySiteInfo := SiteInfo{}

@@ -269,24 +269,7 @@ function boardScene2Topology(scene)
 function submitFogFunction(functionCtxObj)
 {
     console.log("=============submit a fog function=============");
-    console.log(JSON.stringify(functionCtxObj));
-/*    
-    var  topologyCtxObj = functionCtxObj.attributes.topology.value;
-    var  intentCtxObj = functionCtxObj.attributes.intent.value;  
-        
-    client.updateContext(topologyCtxObj).then( function() {
-        console.log("created the service topology with a single task");
-                           
-        client.updateContext(intentCtxObj).then( function() {      
-            console.log("create its intent");              
-        }).catch( function(error) {
-            console.log("failed to create its intent");
-        });
-                                                        
-    }(intentCtxObj)).catch( function(error) {
-        console.log('failed to create the service topology');
-    });   
-*/            
+    console.log(JSON.stringify(functionCtxObj));  
 
     functionCtxObj.metadata = {};      
     var geoScope = {};    
@@ -508,7 +491,7 @@ function deleteFogFunction(fogfunction)
         console.log(data);
 		showFogFunctions();		
     }).catch( function(error) {
-        console.log('failed to delete a service topology');
+        console.log('failed to delete a fog function');
     });  	
 }
 

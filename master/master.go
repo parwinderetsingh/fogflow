@@ -69,6 +69,7 @@ func (master *Master) Start(configuration *Config) {
 	master.operatorList = make(map[string]Operator)
 	master.dockerImageList = make(map[string][]DockerImage)
 	master.topologyList = make(map[string]*Topology)
+	master.fogfunctionList = make(map[string]*FogFunction)
 
 	master.subID2Type = make(map[string]string)
 
@@ -328,7 +329,6 @@ func (master *Master) handleFogFunctionUpdate(fogfunctionCtxObj *ContextObject) 
 	INFO.Println(fogfunctionCtxObj)
 
 	if fogfunctionCtxObj.IsEmpty() {
-
 		var eid = fogfunctionCtxObj.Entity.ID
 
 		fogfunction := master.fogfunctionList[eid]
