@@ -12,8 +12,8 @@ import (
 	. "github.com/smartfog/fogflow/common/ngsi"
 )
 
-var previous_num = int64(0)
-var current_num = int64(0)
+var previous_num = int(0)
+var current_num = int(0)
 var ticker *time.Ticker
 
 func main() {
@@ -68,7 +68,8 @@ func startAgent(config *Config) {
 func HandleNotifyContext(notifyCtxReq *NotifyContextRequest) {
 	//INFO.Println("===========RECEIVE NOTIFY CONTEXT=========")
 	//INFO.Printf("<< %+v >>\r\n", notifyCtxReq)
-	current_num = current_num + 1
+
+	current_num = current_num + len(notifyCtxReq.ContextResponses)
 
 	/*
 
