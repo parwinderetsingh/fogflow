@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"regexp"
 	"strings"
@@ -68,10 +67,6 @@ func matchMetadatas(metadatas []ContextMetadata, restriction Restriction) bool {
 					point := meta.Value.(Point)
 					circle := scope.Value.(Circle)
 
-					fmt.Println("IN CIRCLE?")
-					fmt.Printf("%+v\n", point)
-					fmt.Printf("%+v\n", circle)
-
 					if PointInCircle(&point, &circle) == false {
 						return false
 					}
@@ -83,11 +78,6 @@ func matchMetadatas(metadatas []ContextMetadata, restriction Restriction) bool {
 				if meta.Type == "point" {
 					point := meta.Value.(Point)
 					polygon := scope.Value.(Polygon)
-
-					fmt.Println("IN POLYGON?")
-
-					fmt.Printf("%+v\n", point)
-					fmt.Printf("%+v\n", polygon)
 
 					if PointInPolygon(&point, &polygon) == false {
 						return false

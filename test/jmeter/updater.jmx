@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.1.1 r1855137">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="throughput" enabled="true">
       <stringProp name="TestPlan.comments">Test for Fog Flow GE</stringProp>
@@ -15,7 +15,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">10.156.0.9</stringProp>
+            <stringProp name="Argument.value">192.168.1.110</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">IP of Context Broker, name set in the hosts file</stringProp>
           </elementProp>
@@ -302,11 +302,11 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">100000</stringProp>
+          <stringProp name="LoopController.loops">5000</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">4</stringProp>
         <stringProp name="ThreadGroup.ramp_time">0</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
@@ -327,21 +327,13 @@
          },&#xd;
          &quot;attributes&quot;:[  &#xd;
             {  &#xd;
-               &quot;name&quot;:&quot;${ATTRIBUTE}&quot;,&#xd;
+               &quot;name&quot;:&quot;temperature&quot;,&#xd;
                &quot;type&quot;:&quot;integer&quot;,&#xd;
                &quot;contextValue&quot;: ${__Random(1,10000)}&#xd;
-            }&#xd;
-         ],&#xd;
-         &quot;domainMetadata&quot;:[  &#xd;
-            {  &#xd;
-               &quot;name&quot;:&quot;location&quot;,&#xd;
-               &quot;type&quot;:&quot;local&quot;,&#xd;
-               &quot;value&quot;:&quot;local&quot;&#xd;
-            },&#xd;
-            {  &#xd;
-               &quot;name&quot;:&quot;city&quot;,&#xd;
-               &quot;type&quot;:&quot;string&quot;,&#xd;
-               &quot;value&quot;:&quot;Heidelberg&quot;&#xd;
+            },{  &#xd;
+               &quot;name&quot;:&quot;pressure&quot;,&#xd;
+               &quot;type&quot;:&quot;integer&quot;,&#xd;
+               &quot;contextValue&quot;: ${__Random(1,10000)}&#xd;
             }&#xd;
          ]&#xd;
       }&#xd;
