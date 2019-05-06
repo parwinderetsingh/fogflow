@@ -432,6 +432,8 @@ func (er *EntityRepository) queryEntities(entities []EntityId, attributes []stri
 		}
 
 		// prepare the result according the returned dataset
+		counter := 0
+
 		for rows.Next() {
 			var eid, etype, ispattern, providerURL string
 			rows.Scan(&eid, &etype, &ispattern, &providerURL)
@@ -444,7 +446,13 @@ func (er *EntityRepository) queryEntities(entities []EntityId, attributes []stri
 			}
 			e := EntityId{ID: eid, Type: etype, IsPattern: bIsPattern}
 			entityMap[providerURL] = append(entityMap[providerURL], e)
+
+			counter = counter + 1
 		}
+
+		DEBUG.Println("===QUERY===: ", queryStatement)
+		DEBUG.Println("=== number of matched entities====", counter)
+
 		rows.Close()
 	}
 
