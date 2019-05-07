@@ -212,6 +212,23 @@ func (nc *NGSI10Client) NotifyContext(elem *ContextElement) error {
 	}
 }
 
+func (nc *NGSI10Client) GetEntity(id string) (*ContextObject, error) {
+	resp, err := http.Get(nc.IoTBrokerURL + "/entity/" + id)
+	defer resp.Body.Close()
+
+	text, _ := ioutil.ReadAll(resp.Body)
+
+	ctxElement := ContextElement{}
+	err = json.Unmarshal(text, &ctxElement)
+	if err != nil {
+		return nil, err
+	}
+
+	ctxObj := CtxElement2Object(&ctxElement)
+
+	return ctxObj, nil
+}
+
 func (nc *NGSI10Client) QueryContext(query *QueryContextRequest) ([]*ContextObject, error) {
 	body, err := json.Marshal(*query)
 	if err != nil {

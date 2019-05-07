@@ -487,6 +487,9 @@ function deleteFogFunction(fogfunction)
         isPattern: false
     };	    
     
+    console.log("delete a fog function");
+    console.log(functionEntity);
+    
     client.deleteContext(functionEntity).then( function(data) {
         console.log(data);
 		showFogFunctions();		

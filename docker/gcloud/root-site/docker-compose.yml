@@ -16,6 +16,10 @@ services:
             - ./config.json:/config.json                        
         ports:
             - 443:443
+        ulimits:
+            nofile:
+              soft: 65536
+              hard: 65536            
         depends_on: 
             - postgis
     broker:
@@ -24,6 +28,10 @@ services:
             - ./config.json:/config.json                        
         ports:
             - 8080:8080
+        ulimits:
+            nofile:
+              soft: 65536
+              hard: 65536               
         depends_on: 
             - discovery
     master:
@@ -34,6 +42,10 @@ services:
             - rabbitmq        
         ports:
             - 1060:1060 
+        ulimits:
+            nofile:
+              soft: 65536
+              hard: 65536               
         depends_on: 
             - rabbitmq
             - discovery
@@ -54,3 +66,5 @@ services:
             - 5672:5672
         environment:
             - RABBITMQ_PASS=mypass   
+
+

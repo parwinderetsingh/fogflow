@@ -498,6 +498,7 @@ func (flow *FogFlow) getLocationOfInputs(taskID string) []Point {
 
 func (flow *FogFlow) updateDeploymentPlan(scheduledTask *ScheduledTaskInstance) {
 	flow.DeploymentPlan[scheduledTask.ID] = scheduledTask
+	DEBUG.Printf("==UPDATE DEPLOYMENT PLAN== %+v\r\n", flow)
 }
 
 func (flow *FogFlow) removeGroupKeyFromTable(groupInfo *GroupInfo) {
@@ -720,7 +721,7 @@ func (tMgr *TaskMgr) handleTaskIntent(taskIntent *TaskIntent) {
 	fogflow.Init()
 	fogflow.Intent = taskIntent
 
-	uID := taskIntent.ServiceName + "." + taskIntent.TaskObject.Name
+	fID := taskIntent.ServiceName + "." + taskIntent.TaskObject.Name
 
 	task := taskIntent.TaskObject
 
@@ -742,13 +743,15 @@ func (tMgr *TaskMgr) handleTaskIntent(taskIntent *TaskIntent) {
 
 		// link this subscriptionId with the fog function name
 		tMgr.subID2FogFunc_lock.Lock()
-		tMgr.subID2FogFunc[subID] = uID
+		tMgr.subID2FogFunc[subID] = fID
 		tMgr.subID2FogFunc_lock.Unlock()
 	}
 
 	// add this fog function into the function map
 	tMgr.fogFlows_lock.Lock()
-	tMgr.fogFlows[uID] = &fogflow
+	tMgr.fogFlows[fID] = &fogflow
+	DEBUG.Printf("%+s\r\n", fID)
+	DEBUG.Printf("%+v\r\n", tMgr.fogFlows)
 	tMgr.fogFlows_lock.Unlock()
 }
 
@@ -779,7 +782,8 @@ func (tMgr *TaskMgr) removeTaskIntent(taskIntent *TaskIntent) {
 	// send commands to terminate all existing task instances
 	var fogflow = tMgr.fogFlows[fID]
 
-	DEBUG.Println(fogflow)
+	DEBUG.Printf("%+s\r\n", fID)
+	DEBUG.Printf("%+v\r\n", tMgr.fogFlows)
 
 	for _, scheduledTaskInstance := range fogflow.DeploymentPlan {
 		tMgr.master.TerminateTask(scheduledTaskInstance)
@@ -822,6 +826,9 @@ func (tMgr *TaskMgr) selector2Subscription(inputSelector *InputStreamConfig, geo
 	return subscriptionId
 }
 
+//
+// the main function to deal with data-driven and context aware task orchestration
+//
 func (tMgr *TaskMgr) HandleContextAvailabilityUpdate(subID string, entityAction string, entityRegistration *EntityRegistration) {
 	INFO.Println("handle the change of stream availability")
 	INFO.Println(subID, entityAction, entityRegistration.ID)

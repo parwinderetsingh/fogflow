@@ -28,12 +28,12 @@ func main() {
 
 	startAgent(&config)
 
-	//sid := subscribe(&config)
+	sid := subscribe(&config)
 
-	//time.Sleep(10 * time.Second)
+	time.Sleep(10 * time.Second)
 
 	// start a timer to do something periodically
-	ticker = time.NewTicker(time.Second)
+	ticker = time.NewTicker(time.Second * 5)
 	go func() {
 		for {
 			<-ticker.C
@@ -46,7 +46,7 @@ func main() {
 	signal.Notify(c, syscall.SIGTERM)
 	<-c
 
-	//unsubscribe(&config, sid)
+	unsubscribe(&config, sid)
 
 	time.Sleep(5 * time.Second)
 }
@@ -102,7 +102,7 @@ func subscribe(config *Config) string {
 	subscription := SubscribeContextRequest{}
 
 	newEntity := EntityId{}
-	newEntity.Type = "Car"
+	newEntity.Type = "Task"
 	newEntity.IsPattern = true
 	subscription.Entities = make([]EntityId, 0)
 	subscription.Entities = append(subscription.Entities, newEntity)

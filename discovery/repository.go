@@ -85,7 +85,6 @@ func (er *EntityRepository) updateEntity(entity EntityId, registration *ContextR
 	updatedRegistration := er.updateRegistrationInMemory(entity, registration)
 
 	// update the registration in the database as a background procedure
-	//go er.updateRegistrationInDataBase(entity, registration)
 	er.updateRegistrationInDataBase(entity, registration)
 
 	// return the latest view of the registration for this entity

@@ -50,6 +50,7 @@ func main() {
 		rest.Post("/ngsi9/discoverContextAvailability", iotDiscovery.DiscoverContextAvailability),
 		rest.Post("/ngsi9/subscribeContextAvailability", iotDiscovery.SubscribeContextAvailability),
 		rest.Post("/ngsi9/unsubscribeContextAvailability", iotDiscovery.UnsubscribeContextAvailability),
+		rest.Delete("/ngsi9/registration/#eid", iotDiscovery.deleteRegisteredEntity),
 
 		// interaction across sites for distributed discovery
 		rest.Post("/ngsi9/interSiteContextAvailabilityQuery", iotDiscovery.SiteDiscoverContextAvailability),
@@ -58,7 +59,6 @@ func main() {
 
 		// convenient ngsi9 API
 		rest.Get("/ngsi9/registration/#eid", iotDiscovery.getRegisteredEntity),
-		rest.Delete("/ngsi9/registration/#eid", iotDiscovery.deleteRegisteredEntity),
 		rest.Get("/ngsi9/subscription/#sid", iotDiscovery.getSubscription),
 		rest.Get("/ngsi9/subscription", iotDiscovery.getSubscriptions),
 

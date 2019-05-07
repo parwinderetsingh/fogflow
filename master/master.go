@@ -331,7 +331,11 @@ func (master *Master) handleFogFunctionUpdate(fogfunctionCtxObj *ContextObject) 
 	if fogfunctionCtxObj.IsEmpty() {
 		var eid = fogfunctionCtxObj.Entity.ID
 
+		master.fogfunctionList_lock.RLock()
 		fogfunction := master.fogfunctionList[eid]
+		master.fogfunctionList_lock.RUnlock()
+
+		DEBUG.Printf("%+v\r\n", fogfunction)
 
 		// remove the service intent
 		master.serviceMgr.removeServiceIntent(fogfunction.Intent.ID)
@@ -375,6 +379,9 @@ func (master *Master) handleFogFunctionUpdate(fogfunctionCtxObj *ContextObject) 
 		ERROR.Println("the intent object is not correctly defined")
 		return
 	}
+
+	// allow the ID of this service intent
+	intent.ID = fogfunctionCtxObj.Entity.ID
 
 	fogfunction := FogFunction{}
 
@@ -622,26 +629,14 @@ func (master *Master) RemoveInputEntity(flowInfo FlowInfo) {
 // the shared functions for function manager and topology manager to call
 //
 func (master *Master) RetrieveContextEntity(eid string) *ContextObject {
-	query := QueryContextRequest{}
-
-	query.Entities = make([]EntityId, 0)
-
-	entity := EntityId{}
-	entity.ID = eid
-	entity.IsPattern = false
-	query.Entities = append(query.Entities, entity)
-
 	client := NGSI10Client{IoTBrokerURL: master.BrokerURL}
-	ctxObjects, err := client.QueryContext(&query)
-	if err == nil && ctxObjects != nil && len(ctxObjects) > 0 {
-		return ctxObjects[0]
-	} else {
-		if err != nil {
-			ERROR.Println("error occured when retrieving a context entity :", err)
-		}
+	ctxObj, err := client.GetEntity(eid)
 
+	if err != nil {
 		return nil
 	}
+
+	return ctxObj
 }
 
 //
