@@ -40,7 +40,7 @@ type Communicator struct {
 
 var RetryClosure = func() {
 	retryIn := 2 // retry after 2 seconds
-	log.Printf("Retrying in %v seconds", retryIn)
+	log.Printf("Retrying to connect RabbitMQ in %v seconds", retryIn)
 	time.Sleep(time.Second)
 }
 

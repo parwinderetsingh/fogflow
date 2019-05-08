@@ -20,6 +20,11 @@ type InterSiteSubscription struct {
 	SubscriptionID string
 }
 
+type CacheItem struct {
+	SubscriberURL string
+	Notify        *NotifyContextAvailabilityRequest
+}
+
 type FastDiscovery struct {
 	//backend entity repository
 	repository EntityRepository
@@ -34,12 +39,17 @@ type FastDiscovery struct {
 	subscriptions                map[string]*SubscribeContextAvailabilityRequest
 	linkedInterSiteSubscriptions map[string][]InterSiteSubscription
 	subscriptions_lock           sync.RWMutex
+
+	//cache
+	notifyCache []*CacheItem
+	cache_lock  sync.RWMutex
 }
 
 func (fd *FastDiscovery) Init(cfg *DatabaseCfg) {
 	fd.subscriptions = make(map[string]*SubscribeContextAvailabilityRequest)
 	fd.linkedInterSiteSubscriptions = make(map[string][]InterSiteSubscription)
 	fd.BrokerList = make(map[string]*BrokerProfile)
+	fd.notifyCache = make([]*CacheItem, 0)
 
 	fd.repository.Init(cfg)
 }
@@ -331,44 +341,6 @@ func (fd *FastDiscovery) SiteSubscribeContextAvailability(w rest.ResponseWriter,
 	go fd.handleSubscribeCtxAvailability(&subscribeCtxAvailabilityReq)
 }
 
-/*
-func (fd *FastDiscovery) SubscribeContextAvailability(w rest.ResponseWriter, r *rest.Request) {
-	subscribeCtxAvailabilityReq := SubscribeContextAvailabilityRequest{}
-	err := r.DecodeJsonPayload(&subscribeCtxAvailabilityReq)
-	if err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	// generate a new subscription id
-	u1, err := uuid.NewV4()
-	if err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	subID := u1.String()
-
-	subscribeCtxAvailabilityReq.SubscriptionId = subID
-
-	// add the new subscription
-	fd.subscriptions_lock.Lock()
-	fd.subscriptions[subID] = &subscribeCtxAvailabilityReq
-	fd.subscriptions_lock.Unlock()
-
-	// send out the response
-	subscribeCtxAvailabilityResp := SubscribeContextAvailabilityResponse{}
-	subscribeCtxAvailabilityResp.SubscriptionId = subID
-	subscribeCtxAvailabilityResp.Duration = subscribeCtxAvailabilityReq.Duration
-	subscribeCtxAvailabilityResp.ErrorCode.Code = 200
-	subscribeCtxAvailabilityResp.ErrorCode.ReasonPhrase = "OK"
-
-	w.WriteJson(&subscribeCtxAvailabilityResp)
-
-	// trigger the process to send out the matched context availability infomation to the subscriber
-	go fd.handleSubscribeCtxAvailability(&subscribeCtxAvailabilityReq)
-}
-*/
-
 func (fd *FastDiscovery) SubscribeContextAvailability(w rest.ResponseWriter, r *rest.Request) {
 	subscribeCtxAvailabilityReq := SubscribeContextAvailabilityRequest{}
 	err := r.DecodeJsonPayload(&subscribeCtxAvailabilityReq)
@@ -484,10 +456,61 @@ func (fd *FastDiscovery) sendNotify(subID string, subscriberURL string, entityMa
 
 	notifyReq.ContextRegistrationResponseList = registrationList
 
+	// if there are some notificaitons already in the tmpCache, send those in the cache first
+	fd.cache_lock.RLock()
+	if len(fd.notifyCache) > 0 {
+		//try to send the items in the cache
+		go fd.resendCachedItems()
+	}
+	fd.cache_lock.RUnlock()
+
+	//send the current notify
+	done := fd.postNotify(subscriberURL, &notifyReq)
+	if done == false { // put it into the tmpCache
+		fd.cache_lock.Lock()
+		item := CacheItem{}
+		item.SubscriberURL = subscriberURL
+		item.Notify = &notifyReq
+		fd.notifyCache = append(fd.notifyCache, &item)
+		fd.cache_lock.Unlock()
+	}
+}
+
+func (fd *FastDiscovery) resendCachedItems() {
+	fd.cache_lock.Lock()
+	cachedItem := fd.notifyCache
+	fd.notifyCache = make([]*CacheItem, 0)
+	fd.cache_lock.Unlock()
+
+	// resend them
+	newCache := make([]*CacheItem, 0)
+
+	for _, item := range cachedItem {
+		err := fd.postNotify(item.SubscriberURL, item.Notify)
+		if err == false {
+			newCache = append(newCache, item)
+		}
+	}
+
+	// if some of them are still failed, put them back into the cache
+	if len(newCache) > 0 {
+		fd.cache_lock.Lock()
+		fd.notifyCache = append(fd.notifyCache, newCache...)
+		fd.cache_lock.Unlock()
+	}
+}
+
+// for every 2 second
+func (fd *FastDiscovery) OnTimer() {
+	//try to send the items in the cache
+	fd.resendCachedItems()
+}
+
+func (fd *FastDiscovery) postNotify(subscriberURL string, notifyReq *NotifyContextAvailabilityRequest) bool {
 	body, err := json.Marshal(notifyReq)
 	if err != nil {
 		ERROR.Println(err)
-		return
+		return false
 	}
 
 	req, err := http.NewRequest("POST", subscriberURL, bytes.NewBuffer(body))
@@ -498,7 +521,7 @@ func (fd *FastDiscovery) sendNotify(subID string, subscriberURL string, entityMa
 	resp, err2 := client.Do(req)
 	if err2 != nil {
 		ERROR.Println(err2)
-		return
+		return false
 	}
 
 	defer resp.Body.Close()
@@ -509,12 +532,15 @@ func (fd *FastDiscovery) sendNotify(subID string, subscriberURL string, entityMa
 	err = json.Unmarshal(text, &notifyCtxAvailResp)
 	if err != nil {
 		ERROR.Println(err)
-		return
+		return false
 	}
 
 	if notifyCtxAvailResp.ResponseCode.Code != 200 {
 		ERROR.Println(notifyCtxAvailResp.ResponseCode.ReasonPhrase)
+		return false
 	}
+
+	return true
 }
 
 func (fd *FastDiscovery) SiteUnsubscribeContextAvailability(w rest.ResponseWriter, r *rest.Request) {

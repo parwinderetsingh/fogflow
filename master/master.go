@@ -328,6 +328,7 @@ func (master *Master) prefetchDockerImages(image DockerImage) {
 func (master *Master) handleFogFunctionUpdate(fogfunctionCtxObj *ContextObject) {
 	INFO.Println(fogfunctionCtxObj)
 
+	// the fog function is going to be deleted
 	if fogfunctionCtxObj.IsEmpty() {
 		var eid = fogfunctionCtxObj.Entity.ID
 
@@ -499,6 +500,9 @@ func (master *Master) onReceiveContextAvailability(notifyCtxAvailReq *NotifyCont
 		for _, entity := range registration.EntityIdList {
 			// convert context registration to entity registration
 			entityRegistration := master.contextRegistration2EntityRegistration(&entity, &registration)
+
+			INFO.Println(entityRegistration)
+
 			master.taskMgr.HandleContextAvailabilityUpdate(subID, action, entityRegistration)
 		}
 	}
@@ -507,33 +511,27 @@ func (master *Master) onReceiveContextAvailability(notifyCtxAvailReq *NotifyCont
 func (master *Master) contextRegistration2EntityRegistration(entityId *EntityId, ctxRegistration *ContextRegistration) *EntityRegistration {
 	entityRegistration := EntityRegistration{}
 
-	ctxObj := master.RetrieveContextEntity(entityId.ID)
+	entityRegistration.ID = entityId.ID
+	entityRegistration.Type = entityId.Type
 
-	if ctxObj == nil {
-		entityRegistration.ID = entityId.ID
-		entityRegistration.Type = entityId.Type
-	} else {
-		entityRegistration.ID = ctxObj.Entity.ID
-		entityRegistration.Type = ctxObj.Entity.Type
+	entityRegistration.AttributesList = make(map[string]ContextRegistrationAttribute)
 
-		entityRegistration.AttributesList = make(map[string]ContextRegistrationAttribute)
-		for attrName, attrValue := range ctxObj.Attributes {
-			attributeRegistration := ContextRegistrationAttribute{}
-			attributeRegistration.Name = attrName
-			attributeRegistration.Type = attrValue.Type
+	for _, attribute := range ctxRegistration.ContextRegistrationAttributes {
+		attributeRegistration := ContextRegistrationAttribute{}
+		attributeRegistration.Name = attribute.Name
+		attributeRegistration.Type = attribute.Type
 
-			entityRegistration.AttributesList[attrName] = attributeRegistration
-		}
+		entityRegistration.AttributesList[attribute.Name] = attributeRegistration
+	}
 
-		entityRegistration.MetadataList = make(map[string]ContextMetadata)
-		for metaname, ctxmeta := range ctxObj.Metadata {
-			cm := ContextMetadata{}
-			cm.Name = metaname
-			cm.Type = ctxmeta.Type
-			cm.Value = ctxmeta.Value
+	entityRegistration.MetadataList = make(map[string]ContextMetadata)
+	for _, ctxmeta := range ctxRegistration.Metadata {
+		cm := ContextMetadata{}
+		cm.Name = ctxmeta.Name
+		cm.Type = ctxmeta.Type
+		cm.Value = ctxmeta.Value
 
-			entityRegistration.MetadataList[metaname] = cm
-		}
+		entityRegistration.MetadataList[ctxmeta.Name] = cm
 	}
 
 	entityRegistration.ProvidingApplication = ctxRegistration.ProvidingApplication

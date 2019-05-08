@@ -308,9 +308,8 @@ func (nc *NGSI10Client) SubscribeContext(sub *SubscribeContextRequest, requireRe
 		return "", err
 	}
 
-	fmt.Println(nc.IoTBrokerURL + "/subscribeContext")
-
-	fmt.Println(bytes.NewBuffer(body))
+	//fmt.Println(nc.IoTBrokerURL + "/subscribeContext")
+	//fmt.Println(bytes.NewBuffer(body))
 
 	req, err := http.NewRequest("POST", nc.IoTBrokerURL+"/subscribeContext", bytes.NewBuffer(body))
 	req.Header.Add("Content-Type", "application/json")

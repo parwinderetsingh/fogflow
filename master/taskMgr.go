@@ -315,7 +315,7 @@ func (flow *FogFlow) expandExecutionPlan(entityID string, inputSubscription *Inp
 		if task, exist := flow.ExecutionPlan[hashID]; exist {
 			INFO.Printf("inputs: %+v", task.Inputs)
 
-			entitiesList := flow.searchRelevantEntities(&group)
+			entitiesList := flow.searchRelevantEntities(&group, entityID)
 			for _, entity := range entitiesList {
 				DEBUG.Printf("input entity : %+v\r\n", entity)
 				newInput := true
@@ -362,7 +362,7 @@ func (flow *FogFlow) expandExecutionPlan(entityID string, inputSubscription *Inp
 
 			task.Status = "scheduled"
 
-			task.Inputs = flow.searchRelevantEntities(&group)
+			task.Inputs = flow.searchRelevantEntities(&group, entityID)
 			task.Outputs = flow.generateOutputs(&group)
 
 			flow.ExecutionPlan[hashID] = &task
@@ -611,7 +611,7 @@ func (flow *FogFlow) getRelevantGroups(sub *InputSubscription, entityID string) 
 	return groups
 }
 
-func (flow *FogFlow) searchRelevantEntities(group *GroupInfo) []InputEntity {
+func (flow *FogFlow) searchRelevantEntities(group *GroupInfo, updatedEntityID string) []InputEntity {
 	entities := make([]InputEntity, 0)
 
 	for _, inputSub := range flow.Subscriptions {

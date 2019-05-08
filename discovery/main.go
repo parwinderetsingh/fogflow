@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"strconv"
 	"syscall"
+	"time"
 
 	"github.com/ant0ine/go-json-rest/rest"
 	"github.com/mmcloughlin/geohash"
@@ -101,6 +102,14 @@ func main() {
 	go func() {
 		fmt.Printf("Starting IoT Discovery on port %d\n", config.Discovery.Port)
 		panic(http.ListenAndServe(":"+strconv.Itoa(config.Discovery.Port), api.MakeHandler()))
+	}()
+
+	// start a timer to do something periodically
+	ticker := time.NewTicker(2 * time.Second)
+	go func() {
+		for _ = range ticker.C {
+			iotDiscovery.OnTimer()
+		}
 	}()
 
 	// wait for Control +C to quit
