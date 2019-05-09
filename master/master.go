@@ -503,7 +503,7 @@ func (master *Master) onReceiveContextAvailability(notifyCtxAvailReq *NotifyCont
 
 			INFO.Println(entityRegistration)
 
-			master.taskMgr.HandleContextAvailabilityUpdate(subID, action, entityRegistration)
+			go master.taskMgr.HandleContextAvailabilityUpdate(subID, action, entityRegistration)
 		}
 	}
 }

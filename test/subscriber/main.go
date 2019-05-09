@@ -102,7 +102,7 @@ func subscribe(config *Config) string {
 	subscription := SubscribeContextRequest{}
 
 	newEntity := EntityId{}
-	newEntity.Type = "Task"
+	newEntity.Type = "Temperature"
 	newEntity.IsPattern = true
 	subscription.Entities = make([]EntityId, 0)
 	subscription.Entities = append(subscription.Entities, newEntity)

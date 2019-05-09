@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	. "github.com/smartfog/fogflow/common/config"
 	. "github.com/smartfog/fogflow/common/datamodel"
@@ -303,8 +304,6 @@ func (flow *FogFlow) checkInputsOfTaskInstance(taskCfg *TaskConfig) bool {
 
 func (flow *FogFlow) expandExecutionPlan(entityID string, inputSubscription *InputSubscription) []*DeploymentAction {
 	groups := flow.getRelevantGroups(inputSubscription, entityID)
-
-	DEBUG.Printf("groups = %+v\r\n", groups)
 
 	deploymentActions := make([]*DeploymentAction, 0)
 
@@ -849,6 +848,11 @@ func (tMgr *TaskMgr) HandleContextAvailabilityUpdate(subID string, entityAction 
 	defer tMgr.fogFlows_lock.Unlock()
 
 	fogflow := tMgr.fogFlows[funcName]
+
+	// t1 := time.Now()
+	// t2 := time.Now()
+	// diff := t2.Sub(t1)
+	// fmt.Println(diff)
 
 	deploymentActions := fogflow.MetadataDrivenTaskOrchestration(subID, entityAction, entityRegistration)
 
