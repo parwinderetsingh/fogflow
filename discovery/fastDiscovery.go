@@ -104,7 +104,7 @@ func (fd *FastDiscovery) notifySubscribers(registration *ContextRegistration, up
 	providerURL := registration.ProvidingApplication
 	for _, subscription := range fd.subscriptions {
 		// find out the updated entities matched with this subscription
-		entities := fd.matchingWithSubscription(registration, subscription)
+		entities := matchingWithFilters(registration, subscription.Entities, subscription.Attributes, subscription.Restriction)
 		if len(entities) == 0 {
 			continue
 		}
@@ -118,44 +118,6 @@ func (fd *FastDiscovery) notifySubscribers(registration *ContextRegistration, up
 		// send out AvailabilityNotify to subscribers
 		go fd.sendNotify(subID, subscriberURL, entityMap, updateAction)
 	}
-}
-
-func (fd *FastDiscovery) matchingWithSubscription(registration *ContextRegistration, subscription *SubscribeContextAvailabilityRequest) []EntityId {
-	matchedEntities := make([]EntityId, 0)
-
-	for _, entity := range registration.EntityIdList {
-		// check entityId part
-		atLeastOneMatched := false
-		for _, tmp := range subscription.Entities {
-			matched := matchEntityId(entity, tmp)
-			if matched == true {
-				atLeastOneMatched = true
-				break
-			}
-		}
-		if atLeastOneMatched == false {
-			continue
-		}
-
-		// check attribute set
-		matched := matchAttributes(registration.ContextRegistrationAttributes, subscription.Attributes)
-		if matched == false {
-			continue
-		}
-
-		// check metadata set
-		matched = matchMetadatas(registration.Metadata, subscription.Restriction)
-		if matched == false {
-			continue
-		}
-
-		// if matched, add it into the list
-		if matched == true {
-			matchedEntities = append(matchedEntities, entity)
-		}
-	}
-
-	return matchedEntities
 }
 
 func (fd *FastDiscovery) updateRegistration(registReq *RegisterContextRequest) {

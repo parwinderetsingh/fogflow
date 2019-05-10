@@ -29,6 +29,8 @@ type EntityRepository struct {
 	// connection to the backend database
 	db *sql.DB
 
+	cfg *DatabaseCfg
+
 	// cache all received registration in the memory for the performance reason
 	ctxRegistrationList      map[string]*ContextRegistration
 	ctxRegistrationList_lock sync.RWMutex
@@ -38,10 +40,16 @@ type EntityRepository struct {
 }
 
 func (er *EntityRepository) Init(config *DatabaseCfg) {
-	var dbExist = false
+	er.cfg = config
 
 	// initialize the registration list
 	er.ctxRegistrationList = make(map[string]*ContextRegistration)
+
+	if er.cfg.UseOnlyCache == true {
+		return
+	}
+
+	var dbExist = false
 
 	for {
 		exist, err := checkDatabase(config)
@@ -72,6 +80,10 @@ func (er *EntityRepository) Init(config *DatabaseCfg) {
 }
 
 func (er *EntityRepository) Close() {
+	if er.cfg.UseOnlyCache == true {
+		return
+	}
+
 	//close the database
 	er.db.Close()
 	INFO.Println("close the connection to postgresql")
@@ -85,7 +97,9 @@ func (er *EntityRepository) updateEntity(entity EntityId, registration *ContextR
 	updatedRegistration := er.updateRegistrationInMemory(entity, registration)
 
 	// update the registration in the database as a background procedure
-	er.updateRegistrationInDataBase(entity, registration)
+	if er.cfg.UseOnlyCache == false {
+		er.updateRegistrationInDataBase(entity, registration)
+	}
 
 	// return the latest view of the registration for this entity
 	return updatedRegistration
@@ -306,10 +320,35 @@ func (er *EntityRepository) updateRegistrationInDataBase(entity EntityId, regist
 	return nil
 }
 
+func (er *EntityRepository) queryEntities(entities []EntityId, attributes []string, restriction Restriction) map[string][]EntityId {
+	if er.cfg.UseOnlyCache == true {
+		return er.queryEntitiesInMemory(entities, attributes, restriction)
+	} else {
+		return er.queryEntitiesInDataBase(entities, attributes, restriction)
+	}
+}
+
+func (er *EntityRepository) queryEntitiesInMemory(entities []EntityId, attributes []string, restriction Restriction) map[string][]EntityId {
+	er.ctxRegistrationList_lock.RLock()
+	defer er.ctxRegistrationList_lock.RUnlock()
+
+	entityMap := make(map[string][]EntityId)
+
+	for _, registration := range er.ctxRegistrationList {
+		entities := matchingWithFilters(registration, entities, attributes, restriction)
+		if len(entities) > 0 {
+			providerURL := registration.ProvidingApplication
+			entityMap[providerURL] = append(entityMap[providerURL], entities...)
+		}
+	}
+
+	return entityMap
+}
+
 //
 // query always goes to the database, just in order to take advantage of geoquery
 //
-func (er *EntityRepository) queryEntities(entities []EntityId, attributes []string, restriction Restriction) map[string][]EntityId {
+func (er *EntityRepository) queryEntitiesInDataBase(entities []EntityId, attributes []string, restriction Restriction) map[string][]EntityId {
 	er.dbLock.RLock()
 	defer er.dbLock.RUnlock()
 
@@ -459,6 +498,13 @@ func (er *EntityRepository) queryEntities(entities []EntityId, attributes []stri
 }
 
 func (er *EntityRepository) deleteEntity(eid string) {
+	if er.cfg.UseOnlyCache == true {
+		er.ctxRegistrationList_lock.Lock()
+		delete(er.ctxRegistrationList, eid)
+		er.ctxRegistrationList_lock.Unlock()
+		return
+	}
+
 	er.dbLock.Lock()
 	defer er.dbLock.Unlock()
 
@@ -510,6 +556,18 @@ func (er *EntityRepository) deleteEntity(eid string) {
 }
 
 func (er *EntityRepository) ProviderLeft(providerURL string) {
+	if er.cfg.UseOnlyCache == true {
+		er.ctxRegistrationList_lock.Lock()
+		for eid, registration := range er.ctxRegistrationList {
+			if registration.ProvidingApplication == providerURL {
+				delete(er.ctxRegistrationList, eid)
+			}
+		}
+		er.ctxRegistrationList_lock.Unlock()
+
+		return
+	}
+
 	// find out all entities associated with this broker
 	queryStatement := "SELECT entity_tab.eid FROM entity_tab WHERE providerurl = $1;"
 	rows, err := er.db.Query(queryStatement, providerURL)

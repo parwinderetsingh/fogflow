@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 
 	. "github.com/smartfog/fogflow/common/config"
 	. "github.com/smartfog/fogflow/common/datamodel"

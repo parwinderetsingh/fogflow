@@ -20,12 +20,13 @@ var (
 )
 
 type DatabaseCfg struct {
-	DBReset  bool   `json:"dbreset"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	DBname   string `json:"dbname"`
+	UseOnlyCache bool   `json:"use_only_cache"`
+	DBReset      bool   `json:"dbreset"`
+	Username     string `json:"username"`
+	Password     string `json:"password"`
+	Host         string `json:"host"`
+	Port         int    `json:"port"`
+	DBname       string `json:"dbname"`
 }
 
 type RegistryConfiguration struct {

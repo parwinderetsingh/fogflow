@@ -40,6 +40,44 @@ func matchEntityId(entity EntityId, subscribedEntity EntityId) bool {
 	return true
 }
 
+func matchingWithFilters(registration *ContextRegistration, idFilter []EntityId, attrFilter []string, metaFilter Restriction) []EntityId {
+	matchedEntities := make([]EntityId, 0)
+
+	for _, entity := range registration.EntityIdList {
+		// check entityId part
+		atLeastOneMatched := false
+		for _, tmp := range idFilter {
+			matched := matchEntityId(entity, tmp)
+			if matched == true {
+				atLeastOneMatched = true
+				break
+			}
+		}
+		if atLeastOneMatched == false {
+			continue
+		}
+
+		// check attribute set
+		matched := matchAttributes(registration.ContextRegistrationAttributes, attrFilter)
+		if matched == false {
+			continue
+		}
+
+		// check metadata set
+		matched = matchMetadatas(registration.Metadata, metaFilter)
+		if matched == false {
+			continue
+		}
+
+		// if matched, add it into the list
+		if matched == true {
+			matchedEntities = append(matchedEntities, entity)
+		}
+	}
+
+	return matchedEntities
+}
+
 func matchAttributes(registeredAttributes []ContextRegistrationAttribute, requiredAttributeNames []string) bool {
 	for _, attrName := range requiredAttributeNames {
 		exist := false

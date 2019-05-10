@@ -229,9 +229,11 @@ func (master *Master) onReceiveContextNotify(notifyCtxReq *NotifyContextRequest)
 	sid := notifyCtxReq.SubscriptionId
 	stype := master.subID2Type[sid]
 
-	DEBUG.Println("NGSI10 NOTIFY ", sid, " , ", stype)
+	if len(notifyCtxReq.ContextResponses) == 0 {
+		return
+	}
+
 	contextObj := CtxElement2Object(&(notifyCtxReq.ContextResponses[0].ContextElement))
-	DEBUG.Println(contextObj)
 
 	switch stype {
 	// registry of an operator

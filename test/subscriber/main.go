@@ -33,7 +33,7 @@ func main() {
 	time.Sleep(10 * time.Second)
 
 	// start a timer to do something periodically
-	ticker = time.NewTicker(time.Second * 5)
+	ticker = time.NewTicker(time.Second)
 	go func() {
 		for {
 			<-ticker.C

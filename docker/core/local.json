@@ -13,11 +13,12 @@
         "info":"discard",
         "error":"stdout",
         "protocol": "discard",
-        "debug": "discard"
+        "debug": "stdout"
     },
     "discovery": {
         "port": 443,
         "postgresql": {
+            "use_only_cache": true,
             "dbreset": true,
             "username": "postgres",
             "password": "postgres",
