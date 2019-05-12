@@ -18,6 +18,7 @@
     "discovery": {
         "port": 443,
         "postgresql": {
+            "use_only_cache": true,
             "dbreset": true,
             "username": "postgres",
             "password": "postgres",

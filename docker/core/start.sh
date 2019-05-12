@@ -14,19 +14,8 @@ while getopts "f:t:" opt; do
 echo "tag is "$tag""
 echo "configuration file is "$cfile""
 
-if [ "$tag" = "arm.intent" ]; then
-    echo "start rabbitmq"
-    docker run -d --name=rabbitmq -p 5672:5672 --restart unless-stopped -e RABBITMQ_DEFAULT_USER='admin'  -e RABBITMQ_DEFAULT_PASS='mypass' rabbitmq:alpine
-
-    echo "start postgis"
-    docker run -d --name=postgis -p 5432:5432 --restart unless-stopped -e POSTGRES_PASSWORD='postgres'  tobi312/rpi-postgresql-postgis
-else
-    echo "start rabbitmq"
-    docker run -d --name=rabbitmq -p 5672:5672 --restart unless-stopped -e RABBITMQ_DEFAULT_USER='admin'  -e RABBITMQ_DEFAULT_PASS='mypass' rabbitmq:alpine
-
-    echo "start postgis"
-    docker run -d --name=postgis -p 5432:5432 --restart unless-stopped -e POSTGRES_PASSWORD='postgres'  mdillon/postgis	
-fi
+echo "start rabbitmq"
+docker run -d --name=rabbitmq -p 5672:5672 --restart unless-stopped -e RABBITMQ_DEFAULT_USER='admin'  -e RABBITMQ_DEFAULT_PASS='mypass' rabbitmq:alpine
 
 echo "start discovery"
 docker run -d --name=discovery -v `pwd`/$cfile:/config.json -p 443:443 --restart unless-stopped  fogflow/discovery:$tag
