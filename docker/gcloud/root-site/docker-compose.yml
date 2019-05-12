@@ -20,8 +20,6 @@ services:
             nofile:
               soft: 65536
               hard: 65536            
-        depends_on: 
-            - postgis
     broker:
         image: fogflow/broker:intent
         volumes:
