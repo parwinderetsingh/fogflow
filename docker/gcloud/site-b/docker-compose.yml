@@ -16,8 +16,6 @@ services:
             - ./config.json:/config.json                        
         ports:
             - 443:443
-        depends_on: 
-            - postgis
     broker:
         image: fogflow/broker:intent
         volumes:
