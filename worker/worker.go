@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"runtime"
 	"strconv"
+	"sync"
 	"time"
 
 	. "github.com/smartfog/fogflow/common/communicator"
@@ -13,11 +14,14 @@ import (
 )
 
 type Worker struct {
-	id                string
-	communicator      *Communicator
-	ticker            *time.Ticker
-	executor          *Executor
-	allTasks          map[string]*ScheduledTaskInstance
+	id           string
+	communicator *Communicator
+	ticker       *time.Ticker
+	executor     *Executor
+
+	allTasks      map[string]*ScheduledTaskInstance
+	taskList_lock sync.RWMutex
+
 	cfg               *Config
 	selectedBrokerURL string
 	profile           WorkerProfile
@@ -223,9 +227,23 @@ func (w *Worker) onRemoveInput(from string, flow *FlowInfo) {
 	w.executor.onRemoveInput(flow)
 }
 
+func (w *Worker) TaskUpdate(masterID string, task *ScheduledTaskInstance, state string) {
+	tp := TaskUpdate{}
+	tp.ServiceName = task.ServiceName
+	tp.TaskName = task.TaskName
+	tp.TaskID = task.ID
+	tp.Status = state
+	taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + masterID + ".", From: w.id, PayLoad: tp}
+
+	go w.communicator.Publish(&taskUpdateMsg)
+}
+
 func (w *Worker) onScheduledTask(from string, task *ScheduledTaskInstance) {
 	INFO.Println("execute task ", task.ID, " with operation", task.DockerImage)
 	INFO.Printf("task configuration %+v\n", (*task))
+
+	w.taskList_lock.Lock()
+	defer w.taskList_lock.Unlock()
 
 	Runnable := true
 	for _, existTask := range w.allTasks {
@@ -251,11 +269,7 @@ func (w *Worker) onScheduledTask(from string, task *ScheduledTaskInstance) {
 			go w.executor.TerminateTask(existTask.ID, true)
 			existTask.Status = "paused"
 
-			tp := TaskUpdate{}
-			tp.TaskID = existTask.ID
-			tp.Status = "paused"
-			taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + from + ".", From: w.id, PayLoad: tp}
-			w.communicator.Publish(&taskUpdateMsg)
+			w.TaskUpdate(from, existTask, "paused")
 		}
 	}
 
@@ -270,26 +284,21 @@ func (w *Worker) onScheduledTask(from string, task *ScheduledTaskInstance) {
 		w.allTasks[task.ID] = task
 
 		// send ACK back to the master
-		tp := TaskUpdate{}
-		tp.TaskID = task.ID
-		tp.Status = "running"
-		taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + from + ".", From: w.id, PayLoad: tp}
-		w.communicator.Publish(&taskUpdateMsg)
+		w.TaskUpdate(from, task, "running")
 	} else {
 		// add the new task into the local task list
-		task.Status = "pause"
+		task.Status = "paused"
 		w.allTasks[task.ID] = task
 
 		// send ACK back to the master
-		tp := TaskUpdate{}
-		tp.TaskID = task.ID
-		tp.Status = "pause"
-		taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + from + ".", From: w.id, PayLoad: tp}
-		w.communicator.Publish(&taskUpdateMsg)
+		w.TaskUpdate(from, task, "paused")
 	}
 }
 
 func (w *Worker) onTerminateTask(from string, task *ScheduledTaskInstance) {
+	w.taskList_lock.Lock()
+	defer w.taskList_lock.Unlock()
+
 	INFO.Println("terminate task ", task.ID, " with operation", task.DockerImage)
 
 	myTask := w.allTasks[task.ID]
@@ -339,11 +348,7 @@ func (w *Worker) onTerminateTask(from string, task *ScheduledTaskInstance) {
 				go w.executor.LaunchTask(task)
 				task.Status = "running"
 
-				tp := TaskUpdate{}
-				tp.TaskID = task.ID
-				tp.Status = "running"
-				taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + from + ".", From: w.id, PayLoad: tp}
-				w.communicator.Publish(&taskUpdateMsg)
+				w.TaskUpdate(from, task, "running")
 			}
 		}
 	} else {
@@ -354,11 +359,7 @@ func (w *Worker) onTerminateTask(from string, task *ScheduledTaskInstance) {
 				go w.executor.LaunchTask(task)
 				task.Status = "running"
 
-				tp := TaskUpdate{}
-				tp.TaskID = task.ID
-				tp.Status = "running"
-				taskUpdateMsg := SendMessage{Type: "task_update", RoutingKey: "master." + from + ".", From: w.id, PayLoad: tp}
-				w.communicator.Publish(&taskUpdateMsg)
+				w.TaskUpdate(from, task, "running")
 			}
 		}
 	}
@@ -367,6 +368,6 @@ func (w *Worker) onTerminateTask(from string, task *ScheduledTaskInstance) {
 func (w *Worker) onPrefetchImage(imageList []DockerImage) {
 	for _, dockerImage := range imageList {
 		INFO.Println("I am going to fetch the docker image", dockerImage.ImageName)
-		w.executor.PullImage(dockerImage.ImageName, dockerImage.ImageTag)
+		go w.executor.PullImage(dockerImage.ImageName, dockerImage.ImageTag)
 	}
 }

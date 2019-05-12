@@ -660,6 +660,10 @@ func (e *Executor) onAddInput(flow *FlowInfo) {
 		return
 	}
 
+	if e.workerCfg.Worker.StartActualTask == false {
+		return
+	}
+
 	subID, err := e.subscribeInputStream(taskCtx.ListeningPort, &flow.InputStream)
 	if err == nil {
 		DEBUG.Println("===========subscribe new input = ", flow, " , subID = ", subID)
@@ -673,6 +677,10 @@ func (e *Executor) onAddInput(flow *FlowInfo) {
 func (e *Executor) onRemoveInput(flow *FlowInfo) {
 	e.taskMap_lock.Lock()
 	defer e.taskMap_lock.Unlock()
+
+	if e.workerCfg.Worker.StartActualTask == false {
+		return
+	}
 
 	taskCtx := e.taskInstances[flow.TaskInstanceID]
 	subID := taskCtx.EntityID2SubID[flow.InputStream.ID]

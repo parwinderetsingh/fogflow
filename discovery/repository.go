@@ -611,8 +611,8 @@ func (er *EntityRepository) ProviderLeft(providerURL string) {
 }
 
 func (er *EntityRepository) retrieveRegistration(entityID string) *ContextRegistration {
-	er.dbLock.RLock()
-	defer er.dbLock.RUnlock()
+	er.ctxRegistrationList_lock.RLock()
+	defer er.ctxRegistrationList_lock.RUnlock()
 
 	return er.ctxRegistrationList[entityID]
 }

@@ -22,9 +22,10 @@ type RecvMessage struct {
 }
 
 type TaskUpdate struct {
-	TaskID   string
-	Topology string
-	Status   string
+	ServiceName string
+	TaskName    string
+	TaskID      string
+	Status      string
 }
 
 // =========== messages used as the interfaces between different components ====================

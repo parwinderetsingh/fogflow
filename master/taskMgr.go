@@ -156,11 +156,22 @@ func (gf *GroupInfo) Set(group *GroupInfo) {
 	}
 }
 
+func (gf *GroupInfo) ByID() bool {
+	for key, _ := range *gf {
+		pair := strings.Split(key, "-")
+		if pair[1] == "EntityID" {
+			return true
+		}
+	}
+
+	return false
+}
+
 // to generate a unique hash code from its values in the order of sorted keys
-func (gInfo *GroupInfo) GetHash() string {
+func (gf *GroupInfo) GetHash() string {
 	sortedpairs := make([]*KVPair, 0)
 
-	for k, v := range *gInfo {
+	for k, v := range *gf {
 		DEBUG.Printf("group k: %s, v: %+v\r\n", k, v)
 
 		kvpair := KVPair{}
@@ -312,7 +323,6 @@ func (flow *FogFlow) expandExecutionPlan(entityID string, inputSubscription *Inp
 		// check if the associated task instance is already created
 		if task, exist := flow.ExecutionPlan[hashID]; exist {
 			INFO.Printf("inputs: %+v", task.Inputs)
-
 			entitiesList := flow.searchRelevantEntities(&group, entityID)
 			for _, entity := range entitiesList {
 				DEBUG.Printf("input entity : %+v\r\n", entity)
@@ -617,32 +627,48 @@ func (flow *FogFlow) searchRelevantEntities(group *GroupInfo, updatedEntityID st
 
 		DEBUG.Printf("SELECTOR %+v\r\n", selector)
 
-		//restriction
-		restrictions := make(map[string]interface{})
-		key := selector.GroupBy
-		groupKey := selector.EntityType + "-" + key
-		if v, exist := (*group)[groupKey]; exist {
-			restrictions[key] = v
-		}
+		// optimization for this specific case
+		if group.ByID() == true {
+			entityRegistration := inputSub.ReceivedEntityRegistrations[updatedEntityID]
 
-		DEBUG.Printf("restriction %+v\r\n", restrictions)
+			inputEntity := InputEntity{}
+			inputEntity.ID = entityRegistration.ID
+			inputEntity.Type = entityRegistration.Type
 
-		// filtering
-		for _, entityRegistration := range inputSub.ReceivedEntityRegistrations {
-			if entityRegistration.IsMatched(restrictions) == true {
-				inputEntity := InputEntity{}
-				inputEntity.ID = entityRegistration.ID
-				inputEntity.Type = entityRegistration.Type
+			inputEntity.AttributeList = selector.SelectedAttributes
 
-				inputEntity.AttributeList = selector.SelectedAttributes
+			//the location metadata will be used later to decide where to deploy the fog function instance
+			inputEntity.Location = entityRegistration.getLocation()
 
-				//the location metadata will be used later to decide where to deploy the fog function instance
-				inputEntity.Location = entityRegistration.getLocation()
+			entities = append(entities, inputEntity)
+		} else {
+			// construct the restriction
+			restrictions := make(map[string]interface{})
+			key := selector.GroupBy
+			groupKey := selector.EntityType + "-" + key
+			if v, exist := (*group)[groupKey]; exist {
+				restrictions[key] = v
+			}
 
-				DEBUG.Printf("ENTITY REGISTRATION %+v\r\n", entityRegistration)
-				DEBUG.Printf("received input ENTITY %+v\r\n", inputEntity)
+			DEBUG.Printf("restriction %+v\r\n", restrictions)
 
-				entities = append(entities, inputEntity)
+			// filtering
+			for _, entityRegistration := range inputSub.ReceivedEntityRegistrations {
+				if entityRegistration.IsMatched(restrictions) == true {
+					inputEntity := InputEntity{}
+					inputEntity.ID = entityRegistration.ID
+					inputEntity.Type = entityRegistration.Type
+
+					inputEntity.AttributeList = selector.SelectedAttributes
+
+					//the location metadata will be used later to decide where to deploy the fog function instance
+					inputEntity.Location = entityRegistration.getLocation()
+
+					DEBUG.Printf("ENTITY REGISTRATION %+v\r\n", entityRegistration)
+					DEBUG.Printf("received input ENTITY %+v\r\n", inputEntity)
+
+					entities = append(entities, inputEntity)
+				}
 			}
 		}
 	}
@@ -847,11 +873,6 @@ func (tMgr *TaskMgr) HandleContextAvailabilityUpdate(subID string, entityAction 
 	defer tMgr.fogFlows_lock.Unlock()
 
 	fogflow := tMgr.fogFlows[funcName]
-
-	// t1 := time.Now()
-	// t2 := time.Now()
-	// diff := t2.Sub(t1)
-	// fmt.Println(diff)
 
 	deploymentActions := fogflow.MetadataDrivenTaskOrchestration(subID, entityAction, entityRegistration)
 

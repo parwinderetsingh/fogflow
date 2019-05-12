@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"strconv"
 	"sync"
@@ -53,6 +54,11 @@ type Master struct {
 
 	//to manage the orchestration of tasks
 	taskMgr *TaskMgr
+
+	//number of deployed task
+	curNumOfTasks int
+	prevNumOfTask int
+	counter_lock  sync.RWMutex
 
 	//type of subscribed entities
 	subID2Type map[string]string
@@ -135,8 +141,11 @@ func (master *Master) Start(configuration *Config) {
 		}
 	}()
 
+	master.prevNumOfTask = 0
+	master.curNumOfTasks = 0
+
 	// start a timer to do something periodically
-	master.ticker = time.NewTicker(time.Second * 5)
+	master.ticker = time.NewTicker(time.Second)
 	go func() {
 		for {
 			<-master.ticker.C
@@ -149,7 +158,11 @@ func (master *Master) Start(configuration *Config) {
 }
 
 func (master *Master) onTimer() {
-
+	master.counter_lock.Lock()
+	delta := master.curNumOfTasks - master.prevNumOfTask
+	fmt.Printf("# of orchestrated tasks = %d, throughput = %d/s\r\n", master.curNumOfTasks, delta)
+	master.prevNumOfTask = master.curNumOfTasks
+	master.counter_lock.Unlock()
 }
 
 func (master *Master) Quit() {
@@ -502,9 +515,6 @@ func (master *Master) onReceiveContextAvailability(notifyCtxAvailReq *NotifyCont
 		for _, entity := range registration.EntityIdList {
 			// convert context registration to entity registration
 			entityRegistration := master.contextRegistration2EntityRegistration(&entity, &registration)
-
-			INFO.Println(entityRegistration)
-
 			go master.taskMgr.HandleContextAvailabilityUpdate(subID, action, entityRegistration)
 		}
 	}
@@ -599,12 +609,18 @@ func (master *Master) onHeartbeat(from string, profile *WorkerProfile) {
 func (master *Master) onTaskUpdate(from string, update *TaskUpdate) {
 	INFO.Println("==task update=========")
 	INFO.Println(update)
+
 }
 
 func (master *Master) DeployTask(taskInstance *ScheduledTaskInstance) {
+	master.counter_lock.Lock()
+	master.curNumOfTasks = master.curNumOfTasks + 1
+	master.counter_lock.Unlock()
+
 	taskMsg := SendMessage{Type: "ADD_TASK", RoutingKey: taskInstance.WorkerID + ".", From: master.id, PayLoad: *taskInstance}
 	INFO.Println(taskMsg)
-	master.communicator.Publish(&taskMsg)
+
+	go master.communicator.Publish(&taskMsg)
 }
 
 func (master *Master) TerminateTask(taskInstance *ScheduledTaskInstance) {
