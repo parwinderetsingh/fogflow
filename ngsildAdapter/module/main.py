@@ -86,8 +86,6 @@ def notify_server_for_orian():
     data=request.get_json()
     message='notify data'+str(data)
     logger.info(message)
-    print("++++++++++++++++++")
-    print(data)
     dataObj=orian_convert_data(data)
     context=dataObj.get_data()
     logger.info("Data is converted to ngsi-ld")

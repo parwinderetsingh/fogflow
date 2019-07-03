@@ -1,228 +1,67 @@
-2019-06-25 05:03:15,876 storing created Entity from file
-2019-06-25 05:03:15,876 Clossing the file
-2019-06-25 05:03:15,889  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 05:03:15,890  * Restarting with stat
-2019-06-25 05:03:16,160 storing created Entity from file
-2019-06-25 05:03:16,161 Clossing the file
-2019-06-25 05:03:16,171  * Debugger is active!
-2019-06-25 05:03:16,171  * Debugger PIN: 177-254-971
-2019-06-25 06:10:50,375 storing created Entity from file
-2019-06-25 06:10:50,375 Clossing the file
-2019-06-25 06:10:50,388  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 06:10:50,389  * Restarting with stat
-2019-06-25 06:10:50,667 storing created Entity from file
-2019-06-25 06:10:50,667 Clossing the file
-2019-06-25 06:10:50,678  * Debugger is active!
-2019-06-25 06:10:50,679  * Debugger PIN: 177-254-971
-2019-06-25 06:49:36,446 storing created Entity from file
-2019-06-25 06:49:36,446 Clossing the file
-2019-06-25 06:49:36,458  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 06:49:36,459  * Restarting with stat
-2019-06-25 06:49:36,737 storing created Entity from file
-2019-06-25 06:49:36,737 Clossing the file
-2019-06-25 06:49:36,748  * Debugger is active!
-2019-06-25 06:49:36,748  * Debugger PIN: 177-254-971
-2019-06-25 06:50:05,533 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 06:50:05,559 192.168.100.133 - - [25/Jun/2019 06:50:05] "POST /notifyContext1 HTTP/1.1" 500 -
-2019-06-25 06:50:37,286  * Detected change in '/root/TRANSFORMER/Next_transform/fogflow/ngsildAdapter/module/data_model/orian_ld_genrate.py', reloading
-2019-06-25 06:50:37,314  * Restarting with stat
-2019-06-25 06:50:37,588 storing created Entity from file
-2019-06-25 06:50:37,588 Clossing the file
-2019-06-25 06:50:37,599  * Debugger is active!
-2019-06-25 06:50:37,599  * Debugger PIN: 177-254-971
-2019-06-25 06:50:48,151 storing created Entity from file
-2019-06-25 06:50:48,151 Clossing the file
-2019-06-25 06:50:48,163  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 06:50:48,164  * Restarting with stat
-2019-06-25 06:50:48,438 storing created Entity from file
-2019-06-25 06:50:48,439 Clossing the file
-2019-06-25 06:50:48,449  * Debugger is active!
-2019-06-25 06:50:48,450  * Debugger PIN: 177-254-971
-2019-06-25 06:51:07,273 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 06:51:07,273 Start converting ngsiv2 data to NGSI-LD
-2019-06-25 06:51:07,273 Data has been converted to NGSI-LD
-2019-06-25 06:51:07,274 Data is converted to ngsi-ld
-2019-06-25 06:51:07,274 Creating Entity
-2019-06-25 06:51:07,274 Entity has been created
-2019-06-25 06:51:07,275 sending update request
-2019-06-25 06:51:07,341 Entity has been updated to NGB
-2019-06-25 06:51:07,343 192.168.100.133 - - [25/Jun/2019 06:51:07] "POST /notifyContext1 HTTP/1.1" 200 -
-2019-06-25 06:52:04,439 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 06:52:04,439 Start converting ngsiv2 data to NGSI-LD
-2019-06-25 06:52:04,440 Data has been converted to NGSI-LD
-2019-06-25 06:52:04,440 Data is converted to ngsi-ld
-2019-06-25 06:52:04,440 Creating Entity
-2019-06-25 06:52:04,440 Entity has been created
-2019-06-25 06:52:04,440 sending update request
-2019-06-25 06:52:04,502 Entity has been updated to NGB
-2019-06-25 06:52:04,503 192.168.100.133 - - [25/Jun/2019 06:52:04] "POST /notifyContext1 HTTP/1.1" 200 -
-2019-06-25 08:43:40,141 storing created Entity from file
-2019-06-25 08:43:40,141 Clossing the file
-2019-06-25 08:43:40,154  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 08:43:40,155  * Restarting with stat
-2019-06-25 08:43:40,439 storing created Entity from file
-2019-06-25 08:43:40,439 Clossing the file
-2019-06-25 08:43:40,450  * Debugger is active!
-2019-06-25 08:43:40,451  * Debugger PIN: 177-254-971
-2019-06-25 08:47:44,979 storing created Entity from file
-2019-06-25 08:47:44,979 Clossing the file
-2019-06-25 08:47:44,992  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 08:47:44,993  * Restarting with stat
-2019-06-25 08:47:45,264 storing created Entity from file
-2019-06-25 08:47:45,265 Clossing the file
-2019-06-25 08:47:45,275  * Debugger is active!
-2019-06-25 08:47:45,276  * Debugger PIN: 177-254-971
-2019-06-25 09:50:32,386 storing created Entity from file
-2019-06-25 09:50:32,386 Clossing the file
-2019-06-25 09:50:32,398  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 09:50:32,399  * Restarting with stat
-2019-06-25 09:50:32,675 storing created Entity from file
-2019-06-25 09:50:32,676 Clossing the file
-2019-06-25 09:50:32,685  * Debugger is active!
-2019-06-25 09:50:32,686  * Debugger PIN: 177-254-971
-2019-06-25 09:50:58,073 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 09:50:58,074 Start converting ngsiv2 data to NGSI-LD
-2019-06-25 09:50:58,075 Data has been converted to NGSI-LD
-2019-06-25 09:50:58,075 Data is converted to ngsi-ld
-2019-06-25 09:50:58,075 Creating Entity
-2019-06-25 09:50:58,075 Entity has been created
-2019-06-25 09:50:58,076 sending update request
-2019-06-25 09:50:58,103 192.168.100.133 - - [25/Jun/2019 09:50:58] "POST /notifyContext1 HTTP/1.1" 500 -
-2019-06-25 09:55:50,917 storing created Entity from file
-2019-06-25 09:55:50,917 Clossing the file
-2019-06-25 09:55:50,930  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 09:55:50,931  * Restarting with stat
-2019-06-25 09:55:51,218 storing created Entity from file
-2019-06-25 09:55:51,219 Clossing the file
-2019-06-25 09:55:51,230  * Debugger is active!
-2019-06-25 09:55:51,231  * Debugger PIN: 177-254-971
-2019-06-25 09:56:12,315 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 09:56:12,316 Start converting ngsiv2 data to NGSI-LD
-2019-06-25 09:56:12,316 Data has been converted to NGSI-LD
-2019-06-25 09:56:12,316 Data is converted to ngsi-ld
-2019-06-25 09:56:12,316 Creating Entity
-2019-06-25 09:56:12,316 Entity has been created
-2019-06-25 09:56:12,317 sending update request
-2019-06-25 09:56:12,343 192.168.100.133 - - [25/Jun/2019 09:56:12] "POST /notifyContext1 HTTP/1.1" 500 -
-2019-06-25 09:57:19,784 storing created Entity from file
-2019-06-25 09:57:19,784 Clossing the file
-2019-06-25 09:57:19,795  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 09:57:19,796  * Restarting with stat
-2019-06-25 09:57:20,059 storing created Entity from file
-2019-06-25 09:57:20,059 Clossing the file
-2019-06-25 09:57:20,067  * Debugger is active!
-2019-06-25 09:57:20,068  * Debugger PIN: 177-254-971
-2019-06-25 09:57:37,327 notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 09:57:37,327 Start converting ngsiv2 data to NGSI-LD
-2019-06-25 09:57:37,328 Data has been converted to NGSI-LD
-2019-06-25 09:57:37,328 Data is converted to ngsi-ld
-2019-06-25 09:57:37,328 Creating Entity
-2019-06-25 09:57:37,328 Entity has been created
-2019-06-25 09:57:37,329 sending update request
-2019-06-25 09:57:37,333 Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 09:57:37,399 http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 204 0
-2019-06-25 09:57:37,402 Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 09:57:37,440 http://180.179.214.221:9090 "PATCH /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 204 0
-2019-06-25 09:57:37,442 Response is ok
-2019-06-25 09:57:37,442 Entity has been updated to NGB
-2019-06-25 09:57:37,444 192.168.100.133 - - [25/Jun/2019 09:57:37] "POST /notifyContext1 HTTP/1.1" 200 -
-2019-06-25 10:03:42,239 172.16.3.4 - - [25/Jun/2019 10:03:42] "POST /subscribeContext HTTP/1.1" 404 -
-2019-06-25 10:09:17,791 storing created Entity from file
-2019-06-25 10:09:17,791 Clossing the file
-2019-06-25 10:09:17,803  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 10:09:17,804  * Restarting with stat
-2019-06-25 10:09:18,093 storing created Entity from file
-2019-06-25 10:09:18,093 Clossing the file
-2019-06-25 10:09:18,104  * Debugger is active!
-2019-06-25 10:09:18,105  * Debugger PIN: 177-254-971
-2019-06-25 10:09:21,346 Starting new HTTP connection (1): 192.168.100.112:8080
-2019-06-25 10:09:21,357 http://192.168.100.112:8080 "POST /ngsi10/subscribeContext HTTP/1.1" 200 177
-2019-06-25 10:09:21,359 Reesponse is ok
-2019-06-25 10:09:21,360 172.16.3.4 - - [25/Jun/2019 10:09:21] "POST /subscribeContext HTTP/1.1" 200 -
-2019-06-25 10:13:32,877 Start converting ngsiv1 data to NGSI-LD
-2019-06-25 10:13:32,878 Start converting metadata of ngsiv1 to ngsi-ld metadata
-2019-06-25 10:13:32,878 Data has been converted to NGSI-LD
-2019-06-25 10:13:32,878 Data is converted to ngsi-ld
-2019-06-25 10:13:32,878 Creating Entity
-2019-06-25 10:13:32,878 Entity has been created
-2019-06-25 10:13:32,879 Sending create request
-2019-06-25 10:13:32,881 Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 10:13:33,342 http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/ HTTP/1.1" 201 None
-2019-06-25 10:13:33,344 Reesponse is ok
-2019-06-25 10:13:33,344 Entity has been created in NGB
-2019-06-25 10:13:33,345 192.168.100.112 - - [25/Jun/2019 10:13:33] "POST /notifyContext HTTP/1.1" 200 -
-2019-06-25 10:16:18,447 storing created Entity from file
-2019-06-25 10:16:18,447 Clossing the file
-2019-06-25 10:16:18,460  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 10:16:18,461  * Restarting with stat
-2019-06-25 10:16:18,735 storing created Entity from file
-2019-06-25 10:16:18,735 Clossing the file
-2019-06-25 10:16:18,746  * Debugger is active!
-2019-06-25 10:16:18,747  * Debugger PIN: 177-254-971
-2019-06-25 10:16:22,675 notify data{u'originator': u'', u'subscriptionId': u'2cba0122-276a-483d-882d-464b80859320', u'contextResponses': [{u'contextElement': {u'attributes': [{u'contextValue': 34, u'type': u'float', u'name': u'temp'}], u'entityId': {u'type': u'Temp', u'id': u'Temp456', u'isPattern': True}, u'domainMetadata': [{u'type': u'point', u'name': u'location', u'value': {u'latitude': 49.406393, u'longitude': 8.684208}}]}, u'statusCode': {u'code': 200, u'reasonPhrase': u'OK'}}]}
-2019-06-25 10:16:22,675 Start converting ngsiv1 data to NGSI-LD
-2019-06-25 10:16:22,675 Start converting metadata of ngsiv1 to ngsi-ld metadata
-2019-06-25 10:16:22,675 Data has been converted to NGSI-LD
-2019-06-25 10:16:22,675 Data is converted to ngsi-ld
-2019-06-25 10:16:22,676 Creating Entity
-2019-06-25 10:16:22,676 Entity has been created
-2019-06-25 10:16:22,676 sending update request
-2019-06-25 10:16:22,680 Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 10:16:22,739 http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/urn:ngsi-ld:Temp456/attrs HTTP/1.1" 204 0
-2019-06-25 10:16:22,742 Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 10:16:22,780 http://180.179.214.221:9090 "PATCH /ngsi-ld/v1/entities/urn:ngsi-ld:Temp456/attrs HTTP/1.1" 204 0
-2019-06-25 10:16:22,781 Response is ok
-2019-06-25 10:16:22,781 Entity has been updated to NGB
-2019-06-25 10:16:22,783 192.168.100.112 - - [25/Jun/2019 10:16:22] "POST /notifyContext HTTP/1.1" 200 -
-2019-06-25 10:42:44,499  * Detected change in '/root/TRANSFORMER/Next_transform/fogflow/ngsildAdapter/module/common_utilities/LogerHandler.py', reloading
-2019-06-25 10:42:44,533  * Restarting with stat
-2019-06-25 10:42:44,822 take_backup INFO  storing created Entity from file
-2019-06-25 10:42:44,822 take_backup INFO  Clossing the file
-2019-06-25 10:42:44,833 _log WARNING   * Debugger is active!
-2019-06-25 10:42:44,834 _log INFO   * Debugger PIN: 177-254-971
-2019-06-25 10:42:58,451 take_backup INFO  storing created Entity from file
-2019-06-25 10:42:58,451 take_backup INFO  Clossing the file
-2019-06-25 10:42:58,462 _log INFO   * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-2019-06-25 10:42:58,463 _log INFO   * Restarting with stat
-2019-06-25 10:42:58,733 take_backup INFO  storing created Entity from file
-2019-06-25 10:42:58,733 take_backup INFO  Clossing the file
-2019-06-25 10:42:58,743 _log WARNING   * Debugger is active!
-2019-06-25 10:42:58,744 _log INFO   * Debugger PIN: 177-254-971
-2019-06-25 10:43:19,893 notify_server_for_orian INFO  notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 40, u'metadata': {}}}]}
-2019-06-25 10:43:19,894 get_data INFO  Start converting ngsiv2 data to NGSI-LD
-2019-06-25 10:43:19,894 get_data INFO  Data has been converted to NGSI-LD
-2019-06-25 10:43:19,894 notify_server_for_orian INFO  Data is converted to ngsi-ld
-2019-06-25 10:43:19,894 get_entityId INFO  Creating Entity
-2019-06-25 10:43:19,894 get_entityId INFO  Entity has been created
-2019-06-25 10:43:19,895 data_convert_invoker INFO  sending update request
-2019-06-25 10:43:19,899 _new_conn DEBUG  Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 10:43:19,957 _make_request DEBUG  http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 204 0
-2019-06-25 10:43:19,961 _new_conn DEBUG  Starting new HTTP connection (1): 180.179.214.221:9090
-2019-06-25 10:43:19,999 _make_request DEBUG  http://180.179.214.221:9090 "PATCH /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 204 0
-2019-06-25 10:43:20,000 patch_request INFO  Response is ok
-2019-06-25 10:43:20,000 data_convert_invoker INFO  Entity has been updated to NGB
-2019-06-25 10:43:20,002 _log INFO  192.168.100.133 - - [25/Jun/2019 10:43:20] "POST /notifyContext1 HTTP/1.1" 200 -
-[ 2019-06-27 05:19:24,858: take_backup: INFO ------------ storing created Entity from file]
-[ 2019-06-27 05:19:24,858: take_backup: INFO ------------ Clossing the file]
-[ 2019-06-27 05:19:24,871: _log: INFO ------------  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)]
-[ 2019-06-27 05:19:24,872: _log: INFO ------------  * Restarting with stat]
-[ 2019-06-27 05:19:25,164: take_backup: INFO ------------ storing created Entity from file]
-[ 2019-06-27 05:19:25,164: take_backup: INFO ------------ Clossing the file]
-[ 2019-06-27 05:19:25,175: _log: WARNING ------------  * Debugger is active!]
-[ 2019-06-27 05:19:25,176: _log: INFO ------------  * Debugger PIN: 177-254-971]
-[ 2019-06-27 05:22:43,297 ] take_backup: INFO ------------ storing created Entity from file
-[ 2019-06-27 05:22:43,298 ] take_backup: INFO ------------ Clossing the file
-[ 2019-06-27 05:22:43,310 ] _log: INFO ------------  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-[ 2019-06-27 05:22:43,311 ] _log: INFO ------------  * Restarting with stat
-[ 2019-06-27 05:22:43,600 ] take_backup: INFO ------------ storing created Entity from file
-[ 2019-06-27 05:22:43,601 ] take_backup: INFO ------------ Clossing the file
-[ 2019-06-27 05:22:43,612 ] _log: WARNING ------------  * Debugger is active!
-[ 2019-06-27 05:22:43,612 ] _log: INFO ------------  * Debugger PIN: 177-254-971
-[ 2019-06-27 05:29:34,953 ] main.py: INFO storing created Entity from file
-[ 2019-06-27 05:29:34,954 ] main.py: INFO Clossing the file
-[ 2019-06-27 05:29:34,966 ] _internal.py: INFO  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
-[ 2019-06-27 05:29:34,967 ] _internal.py: INFO  * Restarting with stat
-[ 2019-06-27 05:29:35,246 ] main.py: INFO storing created Entity from file
-[ 2019-06-27 05:29:35,246 ] main.py: INFO Clossing the file
-[ 2019-06-27 05:29:35,257 ] _internal.py: WARNING  * Debugger is active!
-[ 2019-06-27 05:29:35,258 ] _internal.py: INFO  * Debugger PIN: 177-254-971
+[ 2019-07-03 04:11:59,979 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 192.168.100.133:8888
+[ 2019-07-03 04:12:00,007 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 192.168.100.133:8888
+[ 2019-07-03 04:12:41,696 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:12:41,706 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:12:41,849 ]  INFO  _internal.py      ::  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+[ 2019-07-03 04:12:41,852 ]  INFO  _internal.py      ::  * Restarting with stat
+[ 2019-07-03 04:12:42,127 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:12:42,128 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:12:42,138 ]  WARNING  _internal.py      ::  * Debugger is active!
+[ 2019-07-03 04:12:42,142 ]  INFO  _internal.py      ::  * Debugger PIN: 177-254-971
+[ 2019-07-03 04:13:22,364 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 192.168.100.133:8888
+[ 2019-07-03 04:13:22,368 ]  INFO  main.py      :: notify data{u'originator': u'', u'subscriptionId': u'd0c08d50-6296-4ef3-9b0f-ff48b3cd5528', u'contextResponses': [{u'contextElement': {u'attributes': [{u'contextValue': 34, u'type': u'float', u'name': u'tempo'}], u'entityId': {u'type': u'Tempr', u'id': u'Temprature702'}, u'domainMetadata': [{u'type': u'point', u'name': u'location', u'value': {u'latitude': 49.406393, u'longitude': 8.684208}}]}, u'statusCode': {u'code': 200, u'reasonPhrase': u'OK'}}]}
+[ 2019-07-03 04:13:22,369 ]  INFO  ld_generate.py      :: Start converting ngsiv1 data to NGSI-LD
+[ 2019-07-03 04:13:22,369 ]  INFO  ld_generate.py      :: Start converting metadata of ngsiv1 to ngsi-ld metadata
+[ 2019-07-03 04:13:22,369 ]  INFO  ld_generate.py      :: Data has been converted to NGSI-LD
+[ 2019-07-03 04:13:22,369 ]  INFO  main.py      :: Data is converted to ngsi-ld
+[ 2019-07-03 04:13:22,369 ]  INFO  ld_generate.py      :: Creating Entity
+[ 2019-07-03 04:13:22,370 ]  INFO  ld_generate.py      :: Entity has been created
+[ 2019-07-03 04:13:22,381 ]  INFO  config.py      :: Retriving url of ngsi-ld-broker from config.ini
+[ 2019-07-03 04:13:22,382 ]  INFO  main.py      :: sending update request
+[ 2019-07-03 04:13:22,386 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 180.179.214.221:9090
+[ 2019-07-03 04:13:23,400 ]  DEBUG  connectionpool.py      :: http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/urn:ngsi-ld:Temprature702/attrs HTTP/1.1" 404 None
+[ 2019-07-03 04:13:23,405 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 180.179.214.221:9090
+[ 2019-07-03 04:13:23,459 ]  DEBUG  connectionpool.py      :: http://180.179.214.221:9090 "PATCH /ngsi-ld/v1/entities/urn:ngsi-ld:Temprature702/attrs HTTP/1.1" 404 None
+[ 2019-07-03 04:13:23,460 ]  INFO  rest_client.py      :: Response is None Entity there may some problem in entity
+[ 2019-07-03 04:13:23,513 ]  INFO  _internal.py      :: 192.168.100.133 - - [03/Jul/2019 04:13:23] "POST /notifyContext HTTP/1.1" 500 -
+[ 2019-07-03 04:13:23,514 ]  DEBUG  connectionpool.py      :: http://192.168.100.133:8888 "POST /notifyContext HTTP/1.1" 500 None
+[ 2019-07-03 04:13:23,523 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 192.168.100.133:8888
+[ 2019-07-03 04:13:23,526 ]  INFO  main.py      :: notify data{u'subscriptionId': u'5d09cdeb0016e878cf94e070', u'data': [{u'type': u'roomie', u'id': u'Room5', u'temp': {u'type': u'Float', u'value': 50, u'metadata': {}}}]}
+[ 2019-07-03 04:13:23,527 ]  INFO  orian_ld_genrate.py      :: Start converting ngsiv2 data to NGSI-LD
+[ 2019-07-03 04:13:23,527 ]  INFO  orian_ld_genrate.py      :: Data has been converted to NGSI-LD
+[ 2019-07-03 04:13:23,527 ]  INFO  main.py      :: Data is converted to ngsi-ld
+[ 2019-07-03 04:13:23,527 ]  INFO  orian_ld_genrate.py      :: Creating Entity
+[ 2019-07-03 04:13:23,528 ]  INFO  orian_ld_genrate.py      :: Entity has been created
+[ 2019-07-03 04:13:23,528 ]  INFO  config.py      :: Retriving url of ngsi-ld-broker from config.ini
+[ 2019-07-03 04:13:23,528 ]  INFO  main.py      :: sending update request
+[ 2019-07-03 04:13:23,531 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 180.179.214.221:9090
+[ 2019-07-03 04:13:23,560 ]  DEBUG  connectionpool.py      :: http://180.179.214.221:9090 "POST /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 404 None
+[ 2019-07-03 04:13:23,564 ]  DEBUG  connectionpool.py      :: Starting new HTTP connection (1): 180.179.214.221:9090
+[ 2019-07-03 04:13:23,591 ]  DEBUG  connectionpool.py      :: http://180.179.214.221:9090 "PATCH /ngsi-ld/v1/entities/urn:ngsi-ld:Room5/attrs HTTP/1.1" 404 None
+[ 2019-07-03 04:13:23,592 ]  INFO  rest_client.py      :: Response is None Entity there may some problem in entity
+[ 2019-07-03 04:13:23,617 ]  INFO  _internal.py      :: 192.168.100.133 - - [03/Jul/2019 04:13:23] "POST /notifyContext1 HTTP/1.1" 500 -
+[ 2019-07-03 04:13:23,618 ]  DEBUG  connectionpool.py      :: http://192.168.100.133:8888 "POST /notifyContext1 HTTP/1.1" 500 None
+[ 2019-07-03 04:19:48,491 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:19:48,492 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:19:48,505 ]  INFO  _internal.py      ::  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+[ 2019-07-03 04:19:48,506 ]  INFO  _internal.py      ::  * Restarting with stat
+[ 2019-07-03 04:19:48,785 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:19:48,785 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:19:48,796 ]  WARNING  _internal.py      ::  * Debugger is active!
+[ 2019-07-03 04:19:48,797 ]  INFO  _internal.py      ::  * Debugger PIN: 177-254-971
+[ 2019-07-03 04:21:10,596 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:21:10,596 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:21:10,609 ]  INFO  _internal.py      ::  * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+[ 2019-07-03 04:21:10,610 ]  INFO  _internal.py      ::  * Restarting with stat
+[ 2019-07-03 04:21:10,899 ]  INFO  main.py      :: storing created Entity from file
+[ 2019-07-03 04:21:10,899 ]  INFO  main.py      :: Clossing the file
+[ 2019-07-03 04:21:10,910 ]  WARNING  _internal.py      ::  * Debugger is active!
+[ 2019-07-03 04:21:10,911 ]  INFO  _internal.py      ::  * Debugger PIN: 177-254-971
+[ 2019-07-03 04:26:05,074 ]  INFO   main.py        storing created Entity from file
+[ 2019-07-03 04:26:05,075 ]  INFO   main.py        Clossing the file
+[ 2019-07-03 04:26:05,087 ]  INFO   _internal.py         * Running on http://0.0.0.0:8888/ (Press CTRL+C to quit)
+[ 2019-07-03 04:26:05,088 ]  INFO   _internal.py         * Restarting with stat
+[ 2019-07-03 04:26:05,371 ]  INFO   main.py        storing created Entity from file
+[ 2019-07-03 04:26:05,372 ]  INFO   main.py        Clossing the file
+[ 2019-07-03 04:26:05,382 ]  WARNING   _internal.py         * Debugger is active!
+[ 2019-07-03 04:26:05,383 ]  INFO   _internal.py         * Debugger PIN: 177-254-971

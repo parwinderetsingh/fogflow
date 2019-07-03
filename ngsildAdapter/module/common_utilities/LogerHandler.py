@@ -6,7 +6,7 @@ class Handler:
     def __init__(self):
         pass
     def get_logger(self):
-        logger_format='[ %(asctime)s ] %(filename)s: %(levelname)s %(message)s'
+        logger_format='[ %(asctime)s ]  %(levelname)s   %(filename)s        %(message)s'
         logging.basicConfig(filename=constant.log_path,
                     format=logger_format,
                     filemode='a')
