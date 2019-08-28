@@ -8,6 +8,7 @@ import ConfigParser
 from common_utilities.config import config_data
 from common_utilities.rest_client import Rest_client
 from common_utilities.LogerHandler import Handler
+from config.check_config import check_ip_port
 import requests
 from consts import constant
 from data_model.ld_generate import ngsi_data_creation
@@ -15,31 +16,38 @@ from data_model.orian_ld_genrate import orian_convert_data
 from data_model.orian_ld_genrate import orian_convert_data
 import copy
 import logging
+#from config import check_ip_port 
 from consts import constant
+
 app = Flask(__name__)
 File_data={}
 storage=[]
+
 class patch_post:
     def __init__(self):
-	pass
+	logger_obj=Handler()
+        self.logger=logger_obj.get_logger()
+
+    # storing Entity_id in the file
 
     def take_backup(self):
-        logger_obj=Handler()
-        logger=logger_obj.get_logger()
+        self.logger.info("take_backup function has been started")
         try:
             id_file=open("data_model/storage/data_file.txt",'r+')
         except FileNotFoundError as fnf_error:
             message=fnf_error
-            logger.error(message)
-        logger.info("storing created Entity from file")    
+            self.logger.error(message)
+        self.logger.debug("storing created Entity from file")    
         for x in id_file:
             x=x.rstrip("\n")
             File_data[x]=1
-        logger.info("Clossing the file")
+        self.logger.debug("Clossing the file")
         id_file.close()
+        self.logger.info("take_backup function has been end")
+    # converting data to ngsild and sending request
+
     def data_convert_invoker(self,context,dataObj):
-        logger_obj=Handler()
-        logger=logger_obj.get_logger()
+        self.logger.info("data_convert_invoker has been started")
         patch_context= copy.deepcopy(context)
         del patch_context["type"]
         del patch_context["id"]
@@ -49,36 +57,42 @@ class patch_post:
         url1 =constant.http+entity_url+constant.entity_uri
         url2=constant.http+entity_url+constant.entity_uri+entity_id+'/attrs'
         if entity_id in File_data.keys():
-            logger.info("sending update request")
+            self.logger.debug("sending update request")
             payload=json.dumps(patch_context)
             robj=Rest_client(url2,payload)
             r=robj.patch_request()
             if r.status_code==constant.update_status:
-                logger.info("Entity has been updated to NGB")
+                self.logger.debug("Entity has been updated to NGB")
         else:
-            logger.info("Sending create request")
+            self.logger.debug("Sending create request")
             payload=json.dumps(context)
             robj=Rest_client(url1,payload)
             r=robj.post_request()
             if r.status_code==constant.create_status:
-                logger.info("Entity has been created in NGB")
+                self.logger.debug("Entity has been created in NGB")
                 id_file=open("data_model/storage/data_file.txt",'a+')
                 id_file.write(entity_id+'\n')
                 File_data[entity_id]=1
                 id_file.close()
+        self.logger.info("data_convert_invoker has been end")
+ # notify app 
+
 @app.route('/notifyContext',methods=['POST'])
 def noify_server():
     data=request.get_json()
     logger_obj=Handler()
     logger=logger_obj.get_logger()
+    logger.debug("noify_server has been started")
     message='notify data'+str(data)
-    logger.info(message)
+    logger.debug(message)
     dataObj=ngsi_data_creation(data)
     context=dataObj.get_ngsi_ld()
-    logger.info("Data is converted to ngsi-ld")
+    logger.debug("Data is converted to ngsi-ld")
     obj=patch_post()
     obj.data_convert_invoker(context,dataObj)
+    logger.info("noify_server has been end")
     return "notify"
+
 @app.route('/notifyContext1',methods=['POST'])
 def notify_server_for_orian():
     logger_obj=Handler()
@@ -92,8 +106,14 @@ def notify_server_for_orian():
     obj=patch_post()
     obj.data_convert_invoker(context,dataObj)
     return "notify"
+
+#subscribe request to the fogflow
+
 @app.route('/subscribeContext',methods=['POST'])
 def rest_client():
+    logger_obj=Handler()
+    logger=logger_obj.get_logger()
+    logger.info("rest_client function has been started")
     data=request.get_json()
     configobj=config_data()
     fog_url=configobj.get_fogflow_subscription_endpoint()
@@ -101,7 +121,11 @@ def rest_client():
     payload = json.dumps(data)
     robj=Rest_client(url,payload)
     r=robj.post_request()
+    logger.info("rest_client function has been end")
     return "subscribe"
+
+# main function
+
 if __name__ == '__main__':
     obj=patch_post()
     obj.take_backup()

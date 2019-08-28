@@ -13,4 +13,5 @@ multistatus=207
 fog_header={'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 http='http://'
 logging_level=10
-log_path='/root/TRANSFORMER/Next_transform/fogflow/ngsildAdapter/module/data_model/storage/log/logs.log'
+log_path='/root/TRANSFORMER/Next_transform/fogflow/ngsildAdapter/module/data_model/storage/log/'
+type_is_not_valid=-1

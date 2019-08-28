@@ -9,34 +9,33 @@ import requests
 from consts import constant
 from LogerHandler import Handler
 import logging
+
 class Rest_client:
     def __init__(self,url,payload):
         self.url=url
         self.payload=payload
         self.headers=constant.header
-    def post_request(self):
-        print("neeraj")
-        print(self.payload)
         logger_obj=Handler()
-        logger=logger_obj.get_logger()
+        self.logger=logger_obj.get_logger()
+
+# sending post request
+    def post_request(self):
+        self.logger.info("Sending post request")
         response = requests.post(self.url, data=self.payload, headers=self.headers)
         if response.ok: 
-            logger.info("Reesponse is ok")
+            self.logger.debug("post response is ok")
             return response
         else:
-            logger.info("Reesponse is None Entity may already exits")
+            self.logger.debug("Reesponse is None Entity may already exits")
             return None 
+
+    # sending patch request
     def patch_request(self):
-        logger_obj=Handler()
-        logger=logger_obj.get_logger()
-        response = requests.post(self.url, data=self.payload, headers=self.headers)
-        print("neeraj srivastav")
+        self.logger.info("Patch request is sending")
         response = requests.patch(self.url, data=self.payload, headers=self.headers)
         if response.ok:
-           logger.info("Response is ok")
+           self.logger.debug("Patch response is ok")
            return response
         else:
-            logger.info("Response is None Entity there may some problem in entity")
+            self.logger.info("Patch response is None Entity there may some problem in entity")
             return None
-            
-         
